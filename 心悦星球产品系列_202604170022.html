@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心悦星球产品系列 | MindEvo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 暖调浅色背景 */
+            --bg-cream: #fdfbf7;
+            --bg-warm: #f8f5f0;
+            --bg-card: #ffffff;
+            
+            /* 绿色系主色 */
+            --forest-dark: #2d5016;
+            --forest: #4a7c2e;
+            --forest-light: #6b9b4c;
+            --sage: #a8c686;
+            --mint: #d4e4c4;
+            
+            /* 温暖点缀色 */
+            --terracotta: #c67b5c;
+            --coral: #e8927c;
+            --sand: #e8d5c4;
+            --gold: #d4a574;
+            
+            /* 文字色 */
+            --text-dark: #1a1714;
+            --text-medium: #4a4540;
+            --text-light: #7a756e;
+            --text-muted: #a09a92;
+            
+            /* 间距 */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+            
+            /* 圆角 */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            
+            /* 缓动 */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏 - 增大整体高度 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(253, 251, 247, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(74, 124, 46, 0.08);
+            transition: all 0.3s var(--ease-out-quart);
+            height: 80px; /* 增大导航栏高度 */
+        }
+        
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 增大logo尺寸 */
+        .logo img {
+            height: 56px; /* 从44px增大到56px */
+            width: auto;
+            max-width: 260px; /* 增大最大宽度 */
+            object-fit: contain;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 0.75rem;
+            list-style: none;
+        }
+        
+        /* 增大导航按钮尺寸和字体 */
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-size: 1.05rem; /* 从0.9rem增大到1.05rem */
+            font-weight: 500;
+            padding: 0.85rem 1.4rem; /* 增大内边距 */
+            border-radius: 100px;
+            transition: all 0.2s var(--ease-out-quart);
+            white-space: nowrap;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--forest);
+            background: var(--mint);
+        }
+        
+        /* 导航按钮激活/选中状态 */
+        .nav-menu a.active {
+            color: var(--forest-dark);
+            background: linear-gradient(135deg, var(--mint) 0%, var(--sage) 100%);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(74, 124, 46, 0.2);
+        }
+        
+        .nav-menu .contact-btn {
+            background: var(--forest);
+            color: white;
+        }
+        
+        .nav-menu .contact-btn:hover {
+            background: var(--forest-dark);
+            color: white;
+        }
+        
+        .nav-menu .contact-btn.active {
+            background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest) 100%);
+            box-shadow: 0 3px 12px rgba(45, 80, 22, 0.3);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.75rem; /* 增大移动端菜单按钮 */
+            color: var(--forest-dark);
+            cursor: pointer;
+        }
+        
+        /* Hero区域 */
+        .hero {
+            padding: 12rem 2rem 6rem; /* 增大顶部padding以适应更大的导航栏 */
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg-cream) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(168, 198, 134, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(212, 165, 116, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-2%, 2%) rotate(2deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-logo {
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-logo img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(45, 80, 22, 0.15));
+        }
+        
+        /* 增大副标题"🌱 心理健康成长生态" */
+        .hero-badge {
+            display: inline-block;
+            padding: 0.75rem 2rem; /* 增大内边距 */
+            background: var(--mint);
+            color: var(--forest-dark);
+            font-size: 1.4rem; /* 从0.85rem大幅增大到1.4rem，与心悦星球字号接近 */
+            font-weight: 600; /* 加粗 */
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 12px rgba(74, 124, 46, 0.15);
+        }
+        
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--forest-dark);
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 span {
+            color: var(--terracotta);
+        }
+        
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--forest);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        
+        /* 章节通用样式 */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        /* 增大章节小标题 - 与主标题字号匹配 */
+        .section-tag {
+            display: inline-block;
+            padding: 0.6rem 1.5rem; /* 增大内边距 */
+            background: linear-gradient(135deg, var(--mint) 0%, var(--sand) 100%);
+            color: var(--forest-dark);
+            font-size: 1.5rem; /* 从0.8rem大幅增大到1.5rem，与主标题匹配 */
+            font-weight: 700; /* 加粗 */
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-radius: 100px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 12px rgba(74, 124, 46, 0.12);
+        }
+        
+        .section h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--forest-dark);
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-desc {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 卡片网格 - 使用align-items: start确保卡片独立 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            align-items: start; /* 关键：防止卡片相互拉伸 */
+        }
+        
+        .cards-grid.large {
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
+        
+        /* 卡片样式 - 独立高度控制 */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(45, 80, 22, 0.06),
+                        0 1px 3px rgba(45, 80, 22, 0.04);
+            transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(74, 124, 46, 0.08);
+            /* 关键：卡片高度由内容决定，不跟随其他卡片 */
+            height: fit-content;
+            align-self: start;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(45, 80, 22, 0.12),
+                        0 4px 12px rgba(45, 80, 22, 0.08);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+        
+        .card:hover .card-image {
+            transform: scale(1.03);
+        }
+        
+        .card-no-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--mint) 0%, var(--sand) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            color: var(--forest);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--forest);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.75rem;
+            background: var(--mint);
+            border-radius: 100px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-warm);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .card h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-summary {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(74, 124, 46, 0.08);
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .expand-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.6rem;
+            background: var(--bg-warm);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--forest);
+            font-weight: 500;
+            transition: all 0.2s var(--ease-out-quart);
+        }
+        
+        .card:hover .expand-hint {
+            background: var(--mint);
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+        
+        .card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* 卡片展开内容 - 独立展开，不影响其他卡片 */
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s var(--ease-out-expo), 
+                        opacity 0.4s var(--ease-out-quart);
+        }
+        
+        .card.expanded .card-details {
+            max-height: 800px;
+            opacity: 1;
+        }
+        
+        .details-content {
+            padding: 0 1.5rem 1.5rem;
+            background: var(--bg-warm);
+            border-radius: var(--radius-md);
+            margin: 0 1.5rem 1.5rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.25rem;
+        }
+        
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--forest);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-list {
+            list-style: none;
+        }
+        
+        .detail-list li {
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            color: var(--text-medium);
+            font-size: 0.95rem;
+        }
+        
+        .detail-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--terracotta);
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, var(--mint) 0%, rgba(212, 165, 116, 0.2) 100%);
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--forest);
+        }
+        
+        .highlight-box .label {
+            font-size: 0.75rem;
+            color: var(--forest);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        
+        .highlight-box .value {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            color: var(--forest-dark);
+            font-weight: 600;
+        }
+        
+        /* 子系列标签 */
+        .series-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: white;
+            border-radius: 100px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--forest-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-bottom: 1.5rem;
+        }
+        
+        .series-tag::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .series-survival::before { background: var(--terracotta); }
+        .series-academic::before { background: var(--forest); }
+        .series-career::before { background: var(--gold); }
+        
+        /* 1日体验营特殊区域 */
+        .experience-banner {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-top: 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .experience-banner h4 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .experience-banner p {
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .experience-tag {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* 联系区域 */
+        .contact-section {
+            background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg-cream) 100%);
+            padding: 5rem 2rem;
+        }
+        
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: 0 8px 40px rgba(45, 80, 22, 0.08);
+        }
+        
+        .contact-card h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card > p {
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-item {
+            padding: 1.5rem;
+            background: var(--bg-cream);
+            border-radius: var(--radius-md);
+            transition: all 0.2s var(--ease-out-quart);
+        }
+        
+        .contact-item:hover {
+            background: var(--mint);
+            transform: translateY(-2px);
+        }
+        
+        .contact-item-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--forest);
+            color: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .contact-item h4 {
+            font-size: 1rem;
+            color: var(--forest-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        
+        .contact-item .contact-value {
+            font-size: 1.1rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+        
+        /* 页脚 */
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(74, 124, 46, 0.08);
+        }
+        
+        .footer-brand {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 600;
+            color: var(--forest-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 章节分隔装饰 */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--sage) 50%, transparent 100%);
+            margin: 0 auto;
+            max-width: 200px;
+        }
+        
+        /* 响应式设计 - 更新导航栏相关 */
+        @media (max-width: 1024px) {
+            .navbar {
+                height: 72px; /* 平板端稍小 */
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-cream);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid rgba(74, 124, 46, 0.1);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu a {
+                padding: 1rem 1.25rem; /* 移动端菜单项更大 */
+                font-size: 1.1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .hero-logo img {
+                height: 60px;
+            }
+            
+            .hero {
+                padding-top: 10rem; /* 调整以适应较大导航栏 */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                height: 68px;
+            }
+            
+            .logo img {
+                height: 44px;
+                max-width: 200px;
+            }
+            
+            .hero {
+                padding: 9rem 1.5rem 4rem;
+            }
+            
+            .section {
+                padding: 3rem 1.5rem;
+            }
+            
+            .cards-grid,
+            .cards-grid.large {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .contact-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .details-content {
+                margin: 0 1rem 1rem;
+            }
+            
+            /* 移动端小标题适当缩小但仍保持醒目 */
+            .section-tag {
+                font-size: 1.15rem;
+                padding: 0.5rem 1.25rem;
+            }
+            
+            /* 移动端副标题适当缩小 */
+            .hero-badge {
+                font-size: 1.1rem;
+                padding: 0.6rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                height: 64px;
+            }
+            
+            .navbar-content {
+                padding: 0 1rem;
+            }
+            
+            .logo img {
+                height: 40px;
+                max-width: 180px;
+            }
+            
+            .card-content {
+                padding: 1.25rem;
+            }
+            
+            .card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .hero-logo img {
+                height: 50px;
+            }
+            
+            .hero {
+                padding: 8rem 1rem 3rem;
+            }
+            
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 0.9rem 1rem;
+            }
+        }
+        
+        /* 减少动画偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            html {
+                scroll-behavior: auto;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .navbar,
+            .expand-hint {
+                display: none;
+            }
+            
+            .card-details {
+                max-height: none !important;
+                opacity: 1 !important;
+                padding-top: 1.5rem !important;
+            }
+            
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="./images/mindevo-logo-long.png" alt="MindEvo 心悦星球">
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#chapter1" data-section="chapter1">B端服务</a></li>
+                <li><a href="#chapter2" data-section="chapter2">研学产品</a></li>
+                <li><a href="#chapter3" data-section="chapter3">家庭系列</a></li>
+                <li><a href="#chapter4" data-section="chapter4">高端服务</a></li>
+                <li><a href="#contact" data-section="contact" class="contact-btn">联系我们</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <header class="hero" id="hero">
+        <div class="hero-content">
+            <span class="hero-badge">🌱 心理健康成长生态</span>
+            <h1>心悦星球<br><span>产品系列</span></h1>
+            <p>专注于心理健康与成长教育的全方位服务体系，为个人、家庭、学校及企事业单位提供专业、温暖、有效的心理健康解决方案。</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">16</span>
+                    <span class="stat-label">核心产品</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">服务系列</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">成长可能</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 第一章：单位采购服务 -->
+    <section class="section" id="chapter1" data-nav="chapter1">
+        <div class="section-header">
+            <span class="section-tag">企业服务</span>
+            <h2>单位采购服务</h2>
+            <p class="section-desc">为政企单位、学校、社区提供专业的心理健康 ecosystem 建设服务</p>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- 卡片1：政企人员心理支持体系 -->
+            <article class="card" data-card-id="card-01">
+                <img src="./images/mindevo_service_01.png" alt="政企人员心理支持体系" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">政企服务</span>
+                        <div class="card-icon">🏢</div>
+                    </div>
+                    <h3>政企人员心理支持体系</h3>
+                    <p class="card-summary">为政府机关及企业单位打造全方位员工心理健康保障体系，提升组织效能与员工幸福感。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">核心服务内容</div>
+                            <ul class="detail-list">
+                                <li>组织心理健康建设 — 建立系统化心理健康管理体系</li>
+                                <li>心理评估与诊断 — 专业测评工具与数据分析</li>
+                                <li>心理关爱服务 — 日常心理咨询与关怀活动</li>
+                                <li>危机应急服务 — 24小时危机干预响应机制</li>
+                                <li>领导力心理赋能 — 管理层心理资本提升培训</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">服务目标</div>
+                            <div class="value">构建健康、积极、高效的组织心理环境</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片2：校园心理健康生态建设 -->
+            <article class="card" data-card-id="card-02">
+                <img src="./images/mindevo_service_02.png" alt="校园心理健康生态建设" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">校园服务</span>
+                        <div class="card-icon">🎓</div>
+                    </div>
+                    <h3>校园心理健康生态建设</h3>
+                    <p class="card-summary">为学校构建完善的心理健康教育与支持体系，守护学生心灵成长。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">服务体系</div>
+                            <ul class="detail-list">
+                                <li>家校协同 — 建立家校沟通桥梁，形成教育合力</li>
+                                <li>学生心理服务 — 个体咨询、团体辅导、心理课程</li>
+                                <li>校园运营支持 — 心理咨询室建设与运营指导</li>
+                                <li>师资能力建设 — 教师心理健康教育培训</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">核心理念</div>
+                            <div class="value">让每一个孩子都被看见、被理解、被支持</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片3：社区心理健康普惠服务 -->
+            <article class="card" data-card-id="card-03">
+                <img src="./images/mindevo_service_03.png" alt="社区心理健康普惠服务" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">社区服务</span>
+                        <div class="card-icon">🏘️</div>
+                    </div>
+                    <h3>社区心理健康普惠服务</h3>
+                    <p class="card-summary">推动心理健康服务下沉社区，让专业心理服务惠及每一位居民。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">服务范围</div>
+                            <ul class="detail-list">
+                                <li>社区心理服务体系建设 — 标准化服务流程与场地规划</li>
+                                <li>政府部门协作 — 配合民政、卫生等部门开展心理服务</li>
+                                <li>特殊群体关爱 — 老年人、残障人士、困境家庭等专项服务</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">服务愿景</div>
+                            <div class="value">打造有温度的心理健康友好型社区</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 第二章：研学营系列 -->
+    <section class="section" id="chapter2" data-nav="chapter2">
+        <div class="section-header">
+            <span class="section-tag">研学产品</span>
+            <h2>研学营系列</h2>
+            <p class="section-desc">在自然与挑战中探索自我，在体验与实践中获得成长</p>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <span class="series-tag series-survival">生存挑战系列</span>
+        </div>
+        
+        <div class="cards-grid large">
+            <!-- 卡片4：荒漠觉醒 -->
+            <article class="card" data-card-id="card-04">
+                <img src="./images/mindevo_service_04.png" alt="荒漠觉醒" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生存挑战</span>
+                        <div class="card-icon">🏜️</div>
+                    </div>
+                    <h3>《荒漠觉醒》</h3>
+                    <p class="card-summary">在苍茫大漠中直面孤独，寻找内心的力量与觉醒。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">🎯 独立思考</span>
+                        <span class="meta-item">🧘 内在定力</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">心理升华</div>
+                            <div class="value">孤独 → 觉醒</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">关键能力培养</div>
+                            <ul class="detail-list">
+                                <li>独立思考 — 在寂静中学会与自我对话</li>
+                                <li>内在定力 — 培养专注与坚持的意志力</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">时间选项</div>
+                            <ul class="detail-list">
+                                <li>深度体验：8天7夜</li>
+                                <li>标准课程：5天4夜</li>
+                                <li>精华体验：3天2夜</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片5：草原共鸣 -->
+            <article class="card" data-card-id="card-05">
+                <img src="./images/mindevo_service_05.png" alt="草原共鸣" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生存挑战</span>
+                        <div class="card-icon">🌾</div>
+                    </div>
+                    <h3>《草原共鸣》</h3>
+                    <p class="card-summary">在辽阔草原上感受天地的宏大，建立与万物连接的归属感。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">💝 同理心</span>
+                        <span class="meta-item">🏠 归属感</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">心理升华</div>
+                            <div class="value">渺小 → 连接</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">关键能力培养</div>
+                            <ul class="detail-list">
+                                <li>同理心 — 理解他人、感同身受的能力</li>
+                                <li>归属感 — 建立与群体、自然的情感联结</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片6：雪域突破 -->
+            <article class="card" data-card-id="card-06">
+                <img src="./images/mindevo_service_06.png" alt="雪域突破" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生存挑战</span>
+                        <div class="card-icon">🏔️</div>
+                    </div>
+                    <h3>《雪域突破》</h3>
+                    <p class="card-summary">在雪山之巅挑战极限，将恐惧转化为突破自我的勇气。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">💪 抗压能力</span>
+                        <span class="meta-item">🔥 意志力</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">心理升华</div>
+                            <div class="value">恐惧 → 突破</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">关键能力培养</div>
+                            <ul class="detail-list">
+                                <li>抗压能力 — 在压力环境中保持心理稳定</li>
+                                <li>意志力 — 克服困难、达成目标的坚持力</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片7：孤岛蜕变 -->
+            <article class="card" data-card-id="card-07">
+                <img src="./images/mindevo_service_07.png" alt="孤岛蜕变" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生存挑战</span>
+                        <div class="card-icon">🏝️</div>
+                    </div>
+                    <h3>《孤岛蜕变》</h3>
+                    <p class="card-summary">在孤岛环境中学会自给自足，将无力感转化为行动力。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">🧩 问题解决</span>
+                        <span class="meta-item">⚡ 执行力</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">心理升华</div>
+                            <div class="value">无力 → 行动</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">关键能力培养</div>
+                            <ul class="detail-list">
+                                <li>问题解决 — 面对困境时的分析与决策能力</li>
+                                <li>执行力 — 将想法转化为实际行动的能力</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片8：丛林觉悟 -->
+            <article class="card" data-card-id="card-08">
+                <img src="./images/mindevo_service_08.png" alt="丛林觉悟" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生存挑战</span>
+                        <div class="card-icon">🌲</div>
+                    </div>
+                    <h3>《丛林觉悟》</h3>
+                    <p class="card-summary">在丛林探索中拨开迷雾，培养洞察本质的系统思维能力。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">🌐 系统思维</span>
+                        <span class="meta-item">👁️ 观察力</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">心理升华</div>
+                            <div class="value">迷茫 → 洞察</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">关键能力培养</div>
+                            <ul class="detail-list">
+                                <li>系统思维 — 理解事物关联与整体运作的能力</li>
+                                <li>观察力 — 敏锐捕捉细节与变化的能力</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0 2rem;">
+            <span class="series-tag series-academic">学科思维系列</span>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- 卡片9：数学·逻辑启蒙 -->
+            <article class="card" data-card-id="card-09">
+                <img src="./images/mindevo_service_09.png" alt="数学·逻辑启蒙" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">学科思维</span>
+                        <div class="card-icon">🔢</div>
+                    </div>
+                    <h3>数学·逻辑启蒙</h3>
+                    <p class="card-summary">用趣味方式打开数学世界，培养逻辑思维与问题解决能力。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">本质定位</div>
+                            <div class="value">世界最基础的语言</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">时间选项</div>
+                            <ul class="detail-list">
+                                <li>深度体验：8天7夜</li>
+                                <li>标准课程：5天4夜</li>
+                                <li>精华体验：3天2夜</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片10：语文·文化力量 -->
+            <article class="card" data-card-id="card-10">
+                <img src="./images/mindevo_service_10.png" alt="语文·文化力量" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">学科思维</span>
+                        <div class="card-icon">📚</div>
+                    </div>
+                    <h3>语文·文化力量</h3>
+                    <p class="card-summary">在经典阅读与写作中感受文化魅力，提升表达与理解能力。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">本质定位</div>
+                            <div class="value">学好一切的基础</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">培养重点</div>
+                            <ul class="detail-list">
+                                <li>深度阅读理解能力</li>
+                                <li>批判性思维与表达</li>
+                                <li>文化传承与创造力</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片11：英语·全球视野 -->
+            <article class="card" data-card-id="card-11">
+                <img src="./images/mindevo_service_11.png" alt="英语·全球视野" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">学科思维</span>
+                        <div class="card-icon">🌍</div>
+                    </div>
+                    <h3>英语·全球视野</h3>
+                    <p class="card-summary">突破语言障碍，打开通往世界的窗口，培养跨文化沟通能力。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="highlight-box" style="margin-bottom: 1rem;">
+                            <div class="label">本质定位</div>
+                            <div class="value">沟通世界的基础</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">培养重点</div>
+                            <ul class="detail-list">
+                                <li>实用英语沟通能力</li>
+                                <li>跨文化理解与尊重</li>
+                                <li>全球化思维与视野</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0 2rem;">
+            <span class="series-tag series-career">生涯规划系列</span>
+        </div>
+        
+        <div class="cards-grid" style="max-width: 600px; margin: 0 auto;">
+            <!-- 卡片12：未来自我探索 -->
+            <article class="card" data-card-id="card-12">
+                <div class="card-no-image">🎯</div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">生涯规划</span>
+                        <div class="card-icon">🧭</div>
+                    </div>
+                    <h3>《未来自我探索》</h3>
+                    <p class="card-summary">帮助青少年认识自我、探索职业方向，为未来人生绘制清晰蓝图。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">核心能力</div>
+                            <ul class="detail-list">
+                                <li>自我认知 — 了解自己的兴趣、优势与价值观</li>
+                                <li>职业意识 — 探索职业世界，建立职业概念</li>
+                                <li>人生规划 — 制定阶段性目标与行动计划</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">时间选项</div>
+                            <ul class="detail-list">
+                                <li>深度探索：8天7夜</li>
+                                <li>标准课程：5天4夜</li>
+                                <li>精华体验：3天2夜</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <!-- 1日体验营 -->
+        <div class="experience-banner">
+            <h4>🌟 1日体验营</h4>
+            <p>学生可根据兴趣选择任意研学营进行1日体验，开启成长探索之旅</p>
+            <span class="experience-tag">灵活选择 · 轻松体验 · 发现兴趣</span>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 第三章：家庭支持系列 -->
+    <section class="section" id="chapter3" data-nav="chapter3">
+        <div class="section-header">
+            <span class="section-tag">家庭服务</span>
+            <h2>家庭支持系列</h2>
+            <p class="section-desc">为家庭提供全方位的心理健康支持与亲子关系改善服务</p>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- 卡片13：家庭工作坊 -->
+            <article class="card" data-card-id="card-13">
+                <img src="./images/mindevo_service_12.png" alt="家庭工作坊" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">家庭服务</span>
+                        <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    </div>
+                    <h3>家庭工作坊</h3>
+                    <p class="card-summary">通过互动体验，增进家庭成员间的理解与信任，共建和谐家庭关系。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">活动内容</div>
+
+                            <ul class="detail-list">
+                                <li>亲子协作 — 共同完成任务，培养默契与配合</li>
+                                <li>沟通训练 — 学习非暴力沟通与倾听技巧</li>
+                                <li>情感表达 — 安全环境中表达真实感受</li>
+                                <li>关系修复 — 化解隔阂，重建亲密连接</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">适合对象</div>
+                            <div class="value">希望改善亲子关系的家庭</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片14：家长课堂 -->
+            <article class="card" data-card-id="card-14">
+                <img src="./images/mindevo_service_13.png" alt="家长课堂" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">家庭服务</span>
+                        <div class="card-icon">🎓</div>
+                    </div>
+                    <h3>家长课堂</h3>
+                    <p class="card-summary">为家长提供科学教育理念与实用方法，成为孩子最好的引路人。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">课程内容</div>
+                            <ul class="detail-list">
+                                <li>教育理念 — 了解儿童发展规律与科学教养方式</li>
+                                <li>心理知识 — 识别孩子情绪与行为背后的心理需求</li>
+                                <li>沟通技巧 — 建立有效亲子对话的技巧与策略</li>
+                                <li>学习指导 — 帮助孩子建立良好学习习惯的方法</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">课程形式</div>
+                            <div class="value">专题讲座 + 案例研讨 + 实操演练</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 卡片15：家长深度咨询 -->
+            <article class="card" data-card-id="card-15">
+                <img src="./images/mindevo_service_14.png" alt="家长深度咨询" class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">家庭服务</span>
+                        <div class="card-icon">💬</div>
+                    </div>
+                    <h3>家长深度咨询</h3>
+                    <p class="card-summary">针对家庭特殊情况的深度咨询服务，提供个性化解决方案。</p>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">咨询范围</div>
+                            <ul class="detail-list">
+                                <li>亲子关系冲突与修复</li>
+                                <li>孩子行为问题分析与干预</li>
+                                <li>家庭教育困境诊断与指导</li>
+                                <li>特殊家庭情况（离异、重组等）适应支持</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">服务承诺</div>
+                            <div class="value">专业保密 · 定制方案 · 持续跟踪</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 第四章：成长陪伴高端服务 -->
+    <section class="section" id="chapter4" data-nav="chapter4">
+        <div class="section-header">
+            <span class="section-tag">高端定制</span>
+            <h2>成长陪伴高端服务</h2>
+            <p class="section-desc">为追求极致品质的家庭提供定制化、私密化的个人成长陪伴方案</p>
+        </div>
+        
+        <div class="cards-grid" style="max-width: 800px; margin: 0 auto;">
+            <!-- 卡片16：定制化个人成长陪伴方案 -->
+            <article class="card" data-card-id="card-16">
+                <img src="./images/mindevo_service_15.png" alt="定制化个人成长陪伴方案" class="card-image" style="height: 280px;">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-category">高端服务</span>
+                        <div class="card-icon">💎</div>
+                    </div>
+                    <h3>定制化个人成长陪伴方案</h3>
+                    <p class="card-summary">一对一专属服务，从评估到陪伴全程定制，助力个人全方位成长。</p>
+                    <div class="card-meta">
+                        <span class="meta-item">🔒 绝对私密</span>
+                        <span class="meta-item">✨ 定制方案</span>
+                        <span class="meta-item">💎 高端品质</span>
+                    </div>
+                    <div class="expand-hint">
+                        <span>查看详情</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="card-details">
+                    <div class="details-content">
+                        <div class="detail-section">
+                            <div class="detail-label">服务特点</div>
+                            <ul class="detail-list">
+                                <li>绝对私密 — 严格保密协议，保护客户隐私</li>
+                                <li>定制方案 — 根据个人情况量身定制成长计划</li>
+                                <li>高端品质 — 资深专家团队，精品服务标准</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">服务形式</div>
+                            <ul class="detail-list">
+                                <li>一对一专属成长顾问全程陪伴</li>
+                                <li>定期面对面深度咨询与辅导</li>
+                                <li>专属线上支持与即时响应</li>
+                                <li>阶段性成长评估与方案调整</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">服务内容</div>
+                            <ul class="detail-list">
+                                <li>心理健康状态全面评估</li>
+                                <li>个人成长目标规划与路径设计</li>
+                                <li>情绪管理与心理调适指导</li>
+                                <li>人际关系与社交能力提升</li>
+                                <li>学业/职业发展规划支持</li>
+                                <li>家庭关系协调与改善</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-box">
+                            <div class="label">预约方式</div>
+                            <div class="value">请通过下方联系方式进行私密咨询预约</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="contact-section" id="contact" data-nav="contact">
+        <div class="contact-content">
+            <div class="contact-card">
+                <span class="section-tag" style="margin-bottom: 1rem;">联系我们</span>
+                <h2>开启心悦之旅</h2>
+                <p>无论您有任何疑问或需求，我们的专业团队随时为您提供帮助</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📞</div>
+                        <h4>服务热线</h4>
+                        <p class="contact-value">13751151970（蒋老师）</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📧</div>
+                        <h4>电子邮箱</h4>
+                        <p class="contact-value">mindevo123@qq.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-brand">心悦星球 MindEvo</div>
+        <p>用心陪伴，悦纳成长 | 专业心理健康与成长教育服务</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">© 2026 心悦星球 版权所有</p>
+    </footer>
+
+    <script>
+        // 卡片展开/收起功能 - 修复版：确保每个卡片独立展开
+        let currentlyExpandedCard = null;
+        
+        function toggleCard(card) {
+            // 如果点击的是链接或按钮，不触发卡片展开
+            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON') {
+                return;
+            }
+            
+            const isExpanded = card.classList.contains('expanded');
+            
+            // 如果当前有展开的卡片，且不是点击的当前卡片，则先关闭它
+            if (currentlyExpandedCard && currentlyExpandedCard !== card) {
+                currentlyExpandedCard.classList.remove('expanded');
+            }
+            
+            // 切换当前卡片状态
+            if (isExpanded) {
+                card.classList.remove('expanded');
+                currentlyExpandedCard = null;
+            } else {
+                card.classList.add('expanded');
+                currentlyExpandedCard = card;
+            }
+        }
+        
+        // 为所有卡片添加点击事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    toggleCard(this);
+                });
+            });
+            
+            // 初始化卡片入场动画
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 50);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo)';
+                observer.observe(card);
+            });
+        });
+        
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // 点击导航链接后关闭移动端菜单
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+        
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.style.boxShadow = '0 2px 20px rgba(45, 80, 22, 0.08)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 100; // 增大偏移量以适应更大的导航栏
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ===== 导航栏滚动状态匹配（关键功能）=====
+        (function() {
+            const navLinks = document.querySelectorAll('.nav-menu a[data-section]');
+            const sections = document.querySelectorAll('section[data-nav]');
+            const hero = document.getElementById('hero');
+            
+            // 创建 IntersectionObserver 用于监听各章节
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.getAttribute('data-nav');
+                        updateActiveNav(sectionId);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // 当章节进入视口中部时触发
+                threshold: 0
+            });
+            
+            // 观察所有章节
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+            
+            // 同时监听Hero区域（页面顶部）
+            if (hero) {
+                const heroObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // 在Hero区域时，清除所有激活状态
+                            navLinks.forEach(link => link.classList.remove('active'));
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.5
+                });
+                heroObserver.observe(hero);
+            }
+            
+            // 更新导航激活状态
+            function updateActiveNav(activeSectionId) {
+                navLinks.forEach(link => {
+                    const linkSection = link.getAttribute('data-section');
+                    if (linkSection === activeSectionId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 备用方案：scroll事件监听（用于IntersectionObserver不支持的浏览器）
+            function updateNavOnScroll() {
+                const scrollPosition = window.pageYOffset + 150; // 偏移量
+                
+                // 检查是否在Hero区域
+                if (hero && scrollPosition < hero.offsetTop + hero.offsetHeight - 100) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    return;
+                }
+                
+                // 检查各章节位置
+                let currentSection = null;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('data-nav');
+                    }
+                });
+                
+                if (currentSection) {
+                    updateActiveNav(currentSection);
+                }
+            }
+            
+            // 使用节流函数优化scroll事件
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        updateNavOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+            
+            // 初始化一次
+            updateNavOnScroll();
+        })();
+    </script>
+</body>
+</html>
