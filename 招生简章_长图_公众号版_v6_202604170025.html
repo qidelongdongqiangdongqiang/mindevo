@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>心悦星球·AI时代生存智慧远征营</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* 年轻活力配色 */
+            --mint: #7DD3C0;
+            --mint-light: #A8E6CF;
+            --mint-dark: #5BC0A8;
+            --coral: #FF8B7B;
+            --coral-light: #FFB4A9;
+            --sky: #7EC8E3;
+            --sky-light: #B8E3F5;
+            --lavender: #C9B1FF;
+            --sunshine: #FFD93D;
+            --cream: #FFF9F0;
+            --white: #FFFFFF;
+            --dark: #2D3436;
+            --gray: #636E72;
+            --light-gray: #B2BEC3;
+            
+            /* 渐变预设 */
+            --gradient-mint: linear-gradient(135deg, #7DD3C0 0%, #A8E6CF 100%);
+            --gradient-coral: linear-gradient(135deg, #FF8B7B 0%, #FFB4A9 100%);
+            --gradient-sky: linear-gradient(135deg, #7EC8E3 0%, #B8E3F5 100%);
+            --gradient-sunset: linear-gradient(135deg, #FF8B7B 0%, #FFD93D 100%);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fffe 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+            
+            /* 阴影 */
+            --shadow-soft: 0 4px 20px rgba(125, 211, 192, 0.15);
+            --shadow-hover: 0 12px 40px rgba(125, 211, 192, 0.25);
+            --shadow-float: 0 20px 60px rgba(0, 0, 0, 0.1);
+            --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+            
+            /* 圆角 */
+            --radius-sm: 16px;
+            --radius-md: 24px;
+            --radius-lg: 32px;
+            --radius-xl: 40px;
+            --radius-full: 9999px;
+        }
+        
+        html {
+            font-size: 18px;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(180deg, #F0FDF9 0%, #FFF9F5 50%, #F0F9FF 100%);
+            line-height: 1.7;
+            color: var(--dark);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            font-size: 18px;
+        }
+        
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: transparent;
+            position: relative;
+        }
+        
+        /* 装饰背景元素 */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .blob-1 {
+            width: 350px;
+            height: 350px;
+            background: var(--mint);
+            top: -100px;
+            right: -150px;
+        }
+        .blob-2 {
+            width: 280px;
+            height: 280px;
+            background: var(--coral);
+            top: 35%;
+            left: -100px;
+            opacity: 0.4;
+        }
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--sky);
+            top: 65%;
+            right: -120px;
+            opacity: 0.5;
+        }
+        .blob-4 {
+            width: 250px;
+            height: 250px;
+            background: var(--lavender);
+            top: 85%;
+            left: -80px;
+            opacity: 0.35;
+        }
+        
+        /* 几何装饰 */
+        .geo-decoration {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .geo-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sunshine);
+        }
+        .geo-ring {
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--mint);
+            border-radius: 50%;
+        }
+        .geo-square {
+            width: 10px;
+            height: 10px;
+            background: var(--coral);
+            transform: rotate(45deg);
+        }
+        .geo-triangle {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 14px solid var(--sky);
+        }
+        
+        .section {
+            padding: 48px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 渐变文字标题 */
+        .gradient-text {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-mint {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-coral {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-sky {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 章节标题 */
+        .section-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-mint);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--gray);
+            margin-bottom: 28px;
+            line-height: 1.7;
+        }
+        
+        /* 标签徽章 */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: var(--shadow-soft);
+        }
+        .badge-mint {
+            background: var(--gradient-mint);
+            color: white;
+        }
+        .badge-coral {
+            background: var(--gradient-coral);
+            color: white;
+        }
+        .badge-sky {
+            background: var(--gradient-sky);
+            color: white;
+        }
+        .badge-sunshine {
+            background: var(--sunshine);
+            color: var(--dark);
+        }
+        
+        /* 封面区域 */
+        .hero {
+            padding: 20px 16px 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-image-wrapper {
+            position: relative;
+            margin-bottom: 28px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-float);
+            transform: perspective(1000px) rotateY(-2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-image-wrapper:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .hero-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+        }
+        
+        .hero-badge {
+            margin-bottom: 20px;
+        }
+        
+        .hero-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+        }
+        
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+        
+        /* 统计数据 */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 28px 0;
+            padding: 24px 16px;
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--light-gray), transparent);
+        }
+        
+        .stat-number {
+            font-size: 42px;
+            font-weight: 900;
+            display: block;
+            line-height: 1;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 15px;
+            color: var(--gray);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        
+        /* 故事卡片 */
+        .story-card {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            margin-top: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .story-card::before {
+            content: '"';
+            position: absolute;
+            top: 0;
+            right: 20px;
+            font-size: 100px;
+            color: var(--mint);
+            font-family: Georgia, serif;
+            line-height: 1;
+            opacity: 0.2;
+        }
+        
+        .story-quote {
+            font-size: 17px;
+            color: var(--dark);
+            line-height: 2;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .story-author {
+            font-size: 15px;
+            color: var(--coral);
+            margin-top: 16px;
+            text-align: right;
+            font-weight: 700;
+        }
+        
+        /* 痛点卡片 */
+        .pain-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .pain-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--coral);
+        }
+        
+        .pain-item:hover {
+            transform: translateY(-4px) translateX(4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .pain-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-coral);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(255, 139, 123, 0.3);
+        }
+        
+        .pain-content strong {
+            color: var(--dark);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .pain-content {
+            font-size: 15px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        /* 双栏布局 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 20px;
+        }
+        
+        .col-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 24px 16px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+        
+        .col-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .col-card h4 {
+            font-size: 15px;
+            margin-bottom: 14px;
+            font-weight: 800;
+        }
+        
+        .col-card ul {
+            font-size: 15px;
+            color: var(--gray);
+            padding-left: 16px;
+            line-height: 2;
+            margin: 0;
+        }
+        
+        .col-card li {
+            margin-bottom: 4px;
+        }
+        
+        /* 信息卡片网格 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 20px 14px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .info-label {
+            font-size: 15px;
+            color: var(--light-gray);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: 15px;
+            color: var(--dark);
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background: var(--gradient-mint);
+            padding: 16px 14px;
+            font-size: 15px;
+            color: white;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .data-table td {
+            padding: 16px 14px;
+            font-size: 15px;
+            color: var(--dark);
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: rgba(125, 211, 192, 0.05);
+        }
+        
+        .highlight-row {
+            background: linear-gradient(90deg, rgba(255, 139, 123, 0.08) 0%, transparent 100%) !important;
+        }
+        
+        /* 时间轴 */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 28px;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 28px;
+            bottom: 28px;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--mint), var(--sky), var(--lavender));
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 24px 20px 24px 70px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .timeline-day {
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-mint);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            box-shadow: 0 6px 20px rgba(125, 211, 192, 0.4);
+            border: 4px solid white;
+        }
+        
+        .timeline-day small {
+            font-size: 15px;
+            opacity: 0.9;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .timeline-day span {
+            font-size: 24px;
+            line-height: 1;
+            margin-top: 2px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .timeline-desc {
+            font-size: 15px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+        
+        .timeline-route {
+            font-size: 15px;
+            color: var(--mint-dark);
+            margin-top: 12px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(125, 211, 192, 0.1) 0%, rgba(168, 230, 207, 0.1) 100%);
+            border-radius: var(--radius-full);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        
+        /* 价格区域 */
+        .price-box {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-sunset);
+        }
+        
+        .price-label {
+            font-size: 15px;
+            color: var(--gray);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .price-amount {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 16px 0 8px;
+            background: var(--gradient-coral);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+        
+        .price-amount span {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .price-note {
+            font-size: 15px;
+            color: var(--gray);
+        }
+        
+        /* 列表样式 */
+        .check-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 16px;
+        }
+        
+        .check-list li {
+            padding: 14px 0;
+            padding-left: 36px;
+            position: relative;
+            font-size: 15px;
+            color: var(--gray);
+            border-bottom: 1px dashed rgba(0,0,0,0.08);
+            line-height: 1.6;
+        }
+        
+        .check-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .check-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 26px;
+            height: 26px;
+            background: var(--gradient-mint);
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            box-shadow: 0 3px 10px rgba(125, 211, 192, 0.3);
+        }
+        
+        /* 流程步骤 */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .process-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 20px 20px 20px 70px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .process-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .process-num {
+            position: absolute;
+            left: 16px;
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-mint);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(125, 211, 192, 0.3);
+        }
+        
+        .process-text {
+            font-size: 15px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        .process-text strong {
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        /* 联系区域 */
+        .contact-section {
+            background: linear-gradient(180deg, rgba(125, 211, 192, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            padding: 48px 20px;
+        }
+        
+        .contact-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 36px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-hover);
+            border: 1px solid rgba(125, 211, 192, 0.2);
+            position: relative;
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-mint);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(125, 211, 192, 0.4);
+        }
+        
+        .contact-card::after {
+            content: '📞';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+        }
+        
+        .contact-header {
+            margin-bottom: 28px;
+            margin-top: 10px;
+        }
+        
+        .contact-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .contact-subtitle {
+            font-size: 15px;
+            color: var(--gray);
+        }
+        
+        .contact-info-box {
+            background: linear-gradient(135deg, rgba(125, 211, 192, 0.08) 0%, rgba(168, 230, 207, 0.08) 100%);
+            border-radius: var(--radius-md);
+            padding: 28px 20px;
+            margin: 24px 0;
+            border: 2px solid rgba(125, 211, 192, 0.2);
+            position: relative;
+        }
+        
+        .contact-phone {
+            font-size: 36px;
+            font-weight: 900;
+            margin: 8px 0;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        
+        .contact-name {
+            font-size: 18px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+        
+        .contact-role {
+            font-size: 15px;
+            color: var(--gray);
+            margin-top: 6px;
+        }
+        
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #f8fffe 0%, #f0fdf9 100%);
+            border-radius: var(--radius-sm);
+            margin: 24px auto 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-gray);
+            font-size: 15px;
+            border: 2px dashed var(--mint);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .qr-image-wrapper {
+            width: 180px;
+            height: 180px;
+            margin: 24px auto 0;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            background: white;
+            box-shadow: var(--shadow-soft);
+            border: 3px solid var(--mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .qr-hint {
+            font-size: 15px;
+            color: var(--gray);
+            margin-top: 16px;
+            font-weight: 600;
+        }
+        
+        /* 品牌结尾 */
+        .brand-section {
+            background: linear-gradient(180deg, rgba(168, 230, 207, 0.1) 0%, rgba(125, 211, 192, 0.2) 100%);
+            padding: 48px 20px 60px;
+            text-align: center;
+        }
+        
+        .brand-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 40px 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .brand-logo {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        
+        .brand-tagline {
+            font-size: 17px;
+            color: var(--gray);
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .brand-quote {
+            font-size: 16px;
+            color: var(--dark);
+            line-height: 2;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8fffe 0%, #f0fdf9 100%);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--mint);
+            margin-bottom: 32px;
+            position: relative;
+        }
+        
+        .brand-quote::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 60px;
+            color: var(--mint);
+            font-family: Georgia, serif;
+            opacity: 0.2;
+            line-height: 1;
+        }
+        
+        .brand-quote-author {
+            font-size: 15px;
+            color: var(--coral);
+            margin-top: 12px;
+            font-weight: 700;
+        }
+        
+        .brand-footer {
+            font-size: 15px;
+            color: var(--gray);
+            font-weight: 600;
+        }
+        
+        /* 图片样式 */
+        .section-image {
+            width: 100%;
+            border-radius: var(--radius-md);
+            margin: 24px 0;
+            box-shadow: var(--shadow-soft);
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .section-image:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* 强调文字 */
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(125, 211, 192, 0.4) 60%);
+            padding: 0 4px;
+            font-weight: 700;
+        }
+        
+        .highlight-coral {
+            background: linear-gradient(180deg, transparent 60%, rgba(255, 139, 123, 0.4) 60%);
+            padding: 0 4px;
+            font-weight: 700;
+        }
+        
+        /* 双师卡片 */
+        .teacher-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .teacher-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .teacher-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .teacher-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .teacher-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .teacher-name {
+            font-size: 20px;
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
+        
+        .teacher-role {
+            font-size: 15px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+        
+        /* 服务卡片 */
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .service-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-mint);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(125, 211, 192, 0.3);
+        }
+        
+        .service-title {
+            font-size: 17px;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+        
+        .service-desc {
+            font-size: 15px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+        
+        .service-desc strong {
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        /* 信息框 */
+        .info-box {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 2px solid var(--mint);
+            position: relative;
+        }
+        
+        .info-box::before {
+            content: '📍';
+            position: absolute;
+            top: -15px;
+            left: 24px;
+            font-size: 24px;
+            background: var(--white);
+            padding: 0 8px;
+        }
+        
+        .info-box-title {
+            font-size: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .info-box-content {
+            font-size: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .info-box-note {
+            font-size: 15px;
+            color: var(--gray);
+            margin-top: 12px;
+        }
+        
+        /* 标题装饰 */
+        .title-decoration {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .title-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gradient-coral);
+        }
+        
+        .title-line {
+            width: 40px;
+            height: 3px;
+            background: var(--gradient-mint);
+            border-radius: 2px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 400px) {
+            .hero-title {
+                font-size: 28px;
+            }
+            .stat-number {
+                font-size: 36px;
+            }
+            .two-col {
+                gap: 10px;
+            }
+            .col-card {
+                padding: 18px 12px;
+            }
+            .timeline-item {
+                padding: 20px 16px 20px 65px;
+            }
+            .timeline-day {
+                width: 56px;
+                height: 56px;
+                left: -8px;
+            }
+            .timeline-day span {
+                font-size: 20px;
+            }
+        }
+        
+        /* 动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+    <div class="bg-blob blob-4"></div>
+    
+    <div class="container">
+        <!-- 封面区域 -->
+        <div class="section hero">
+            <div class="hero-image-wrapper">
+                <img src="camp_images/01_cover_real_v2.jpg" class="hero-image" alt="夏令营封面">
+                <div class="hero-image-overlay"></div>
+            </div>
+            <span class="badge badge-coral hero-badge">🔥 2026暑期远征营</span>
+            <h1 class="hero-title"><span class="gradient-text">8天，2000+公里</span><br>改变孩子一生</h1>
+            <p class="hero-subtitle">心悦星球 · AI时代生存智慧远征营</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">8</span>
+                    <div class="stat-label">天7夜</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2000+</span>
+                    <div class="stat-label">公里</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1:3</span>
+                    <div class="stat-label">师生比</div>
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <p class="story-quote">11岁的天天在家从不做家务。在云南野外露营那天，他主动承担了生火、搭帐篷、准备晚餐的任务，从早忙到晚。当队友们吃着他煮的面时，他说："原来我能让大家吃上一顿热乎饭，这种被需要的感觉真好。"</p>
+                <p class="story-author">—— 爸爸反馈："现在会主动帮忙了，说团队里每个人都要出力。"</p>
+            </div>
+            
+            <div class="story-card">
+                <p class="story-quote">15岁的阿杰性格内向，平时只跟熟人说话，甚至不愿意跟同学交流。在四川城市定向任务中，在队友的陪伴和鼓励下，他成功采访了3位路人。队友说："你看你能做到的啊。"，阿杰露出了自信的微笑。</p>
+                <p class="story-author">—— 带队老师："看到他在群体里慢慢打开自己，很欣慰。"</p>
+            </div>
+            
+            <div class="story-card">
+                <p class="story-quote">12岁的朵朵和室友因为作息时间不同闹了矛盾，当晚哭着要找妈妈。情商教练陪她梳理情绪后，她主动找室友沟通，两人一起制定了宿舍公约，还成了形影不离的好朋友。她说："原来好好说话比发脾气有用多了，我们一起想办法就能解决问题。"</p>
+                <p class="story-author">—— 朵朵自己："我学会了遇到事情先冷静一下。"</p>
+            </div>
+        </div>
+
+        <!-- 痛点共鸣 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-dot"></div>
+                <h2 class="section-title gradient-text-coral">现在的孩子，正在经历什么？</h2>
+            </div>
+            <div class="pain-grid">
+                <div class="pain-item">
+                    <div class="pain-icon">📱</div>
+                    <div class="pain-content">
+                        <strong>过度依赖电子设备</strong>
+                        习惯用豆包查答案、刷短视频放松，离开手机容易焦虑
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon">🌧️</div>
+                    <div class="pain-content">
+                        <strong>生活经验不足</strong>
+                        平时被照顾得太好，遇到小挫折容易放弃，缺乏独立解决问题的机会和能力
+                    </div>
+                </div>
+                <div class="pain-item">
+                    <div class="pain-icon">💬</div>
+                    <div class="pain-content">
+                        <strong>深度社交欠缺</strong>
+                        QQ好友很多，但缺少深交的朋友，遇到人际问题不知如何处理
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 解决方案 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-line"></div>
+                <h2 class="section-title gradient-text-mint">我们要做的，是"重塑"孩子的底层操作系统</h2>
+            </div>
+            <p class="section-subtitle">就像树苗需要合适的环境才能茁壮成长，现在的孩子被过多的课业和电子屏幕包围，缺少真实世界的体验。他们需要一次<span class="highlight">"深度重塑"</span>。</p>
+            
+            <img src="camp_images/02_model_xinyue_v2.jpg" class="section-image" alt="内外兼修模型">
+            
+            <div class="two-col">
+                <div class="col-card">
+                    <h4 class="gradient-text-mint">🎖️ 外在 · 生存技能</h4>
+                    <ul>
+                        <li>野外取火、搭建庇护所</li>
+                        <li>方向辨别、求救信号</li>
+                        <li>培养韧性和抗压能力</li>
+                    </ul>
+                </div>
+                <div class="col-card">
+                    <h4 class="gradient-text-coral">🧠 内在 · 心智系统</h4>
+                    <ul>
+                        <li>情绪觉察与引导</li>
+                        <li>成长型思维植入</li>
+                        <li>培养自尊、自信、自强、自爱的心态</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 产品介绍 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-dot"></div>
+                <h2 class="section-title">心悦星球 · AI时代生存智慧远征营</h2>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-label">营期</div>
+                    <div class="info-value">8天7夜</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">招生对象</div>
+                    <div class="info-value">8-18岁</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">远征路线</div>
+                    <div class="info-value">重庆→贵州→云南→四川→重庆</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">全程距离</div>
+                    <div class="info-value">超过2000公里</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 32px; font-size: 16px; color: var(--dark); margin-bottom: 16px; font-weight: 800;">营期计划</h3>
+            <div class="data-table">
+                <table>
+                    <tr>
+                        <th>期数</th>
+                        <th>时间</th>
+                    </tr>
+                    <tr>
+                        <td>第一期</td>
+                        <td>7月12日 - 7月19日</td>
+                    </tr>
+                    <tr>
+                        <td>第二期</td>
+                        <td>7月26日 - 8月2日</td>
+                    </tr>
+                    <tr>
+                        <td>第三期</td>
+                        <td>8月9日 - 8月16日</td>
+                    </tr>
+                    <tr>
+                        <td>第四期</td>
+                        <td>8月23日 - 8月30日</td>
+                    </tr>
+                </table>
+            </div>
+            <p style="font-size: 15px; color: var(--gray); margin-top: 16px; font-weight: 500;">报名后就近安排营期，当期满员后则顺延至下一期</p>
+        </div>
+
+        <!-- 双师模式 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-line"></div>
+                <h2 class="section-title gradient-text-sky">双师模式：一个管"外"，一个管"内"</h2>
+            </div>
+            
+            <div class="teacher-card">
+                <img src="camp_images/03_coach_real.jpg" class="teacher-image" alt="退役特种兵教官">
+                <span class="badge badge-mint teacher-tag">🎖️ 外在 · 生存技能教练</span>
+                <h3 class="teacher-name">退役特种兵教官</h3>
+                <p class="teacher-role">专业野外生存指导</p>
+                <ul class="check-list">
+                    <li>射击、跳伞、潜水、格斗全能超级战士</li>
+                    <li>驻港部队、维和部队、索马里护航</li>
+                    <li>三等功×N，优秀奖章×N，比武荣誉×N</li>
+                    <li>带训过千人团，亲和力强，善于沟通</li>
+                </ul>
+            </div>
+            
+            <div class="teacher-card">
+                <img src="camp_images/05_eq_coach_real.jpg" class="teacher-image" alt="情商教练">
+                <span class="badge badge-coral teacher-tag">🧠 内在 · 心智系统导师</span>
+                <h3 class="teacher-name">情商教练</h3>
+                <p class="teacher-role">专业心理成长引导</p>
+                <ul class="check-list">
+                    <li>国家二级心理咨询师</li>
+                    <li>儿童青少年心理教育指导师</li>
+                    <li>10年以上青少年心理工作经验</li>
+                    <li>专注青春期情绪管理与社交技能培养</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 8天行程 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-dot"></div>
+                <h2 class="section-title gradient-text">8天，一场蜕变之旅</h2>
+            </div>
+            <p style="text-align: center; color: var(--gray); font-size: 15px; margin-bottom: 28px; font-weight: 500;">每一天都有明确目标与成长任务</p>
+            
+            <!-- 前置访谈 -->
+            <div class="timeline-item" style="background: linear-gradient(135deg, rgba(201,177,255,0.1) 0%, rgba(201,177,255,0.05) 100%); border-left: 4px solid var(--lavender);">
+                <div class="timeline-day" style="background: linear-gradient(135deg, #C9B1FF 0%, #B8A0EE 100%);">
+                    <small>START</small>
+                    <span>前</span>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-title">行程开始前：前置访谈</div>
+                    <div class="timeline-desc">在正式出发前，我们将与每个家庭进行一对一深度访谈，全方位了解孩子的个人情况、性格特点、成长需求和家长的教育期待，为个性化成长方案奠定基础。</div>
+                    <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(201,177,255,0.1) 0%, rgba(201,177,255,0.05) 100%); border-radius: 12px;">
+                        <span style="font-size: 15px; color: var(--dark); font-weight: 600;">访谈内容包括：</span>
+                        <span style="font-size: 15px; color: var(--gray);">孩子性格特点与兴趣爱好、社交能力与情绪管理现状、家长最关注的成长目标、家庭教养方式与沟通模式、特殊需求与注意事项</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>1</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">集结 · 星球登陆</div>
+                        <div class="timeline-desc">开营仪式·星球登陆，签署《星球公约》，组建星际远征小队，选举星球统领，行前赋能学习基础技能，设置"守护天使"增强互动。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">独立觉醒、目标制定、团队建设、规则内化、人际关系、自我管理</span>
+                        </div>
+                        <div class="timeline-route">📍 大学客（两江新区海王星科技大厦）→ 贵州遵义（车程3h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>2</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">生存 · 荒野密码</div>
+                        <div class="timeline-desc">野外急救工作坊（CPR、止血包扎），简易庇护所搭建、水源净化、野外取火教学与实践，"生命教育"团辅模拟突发情境，星空夜话讨论"勇气"。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">风险智慧、急救技能、资源管理、生命教育、压力应对、责任与担当</span>
+                        </div>
+                        <div class="timeline-route">📍 遵义 → 贵阳修文县大水沟村（车程2h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>3</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">生活 · 关系熔炉</div>
+                        <div class="timeline-desc">荒野情报官学习户外勘察技能（地形图辨识、方向识别），情商工作坊：人际关系与冲突解决（非暴力沟通模型），深夜成长：学生团队总结反思，导师一对一辅导。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">关系艺术、非暴力沟通、共情、冲突调解、领导力、自我悦纳</span>
+                        </div>
+                        <div class="timeline-route">📍 大水沟 → 云南曲靖（车程5.5h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>4</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">生命 · 意义追寻</div>
+                        <div class="timeline-desc">全天自然徒步挑战（"静默行走"、"自然冥想"、认识植物），"人生坐标轴"故事圈分享高光与至暗时刻，星空篝火晚会 + 星球人人大舞台第1场线下复活赛。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">韧性锻造、心理韧性、成长型思维、目标感、自我突破</span>
+                        </div>
+                        <div class="timeline-route">📍 曲靖 → 马龙区马鸣乡天生桥（车程1.5h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>5</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">表达 · 影响</div>
+                        <div class="timeline-desc">城市定向求生（3种交通工具、打卡5个资源、完成1件助人事件并采访3个陌生人），故事讲述与表达：团队展示探险故事与心智成长，星球大舞台第2场线下（3人进入半决赛）。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">认知升级、跨学科整合、元认知、创造性表达、第一性原理</span>
+                        </div>
+                        <div class="timeline-route">📍 天生桥 → 云南昆明（车程1.5h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>6</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">创变 · AI时代心智</div>
+                        <div class="timeline-desc">自然创造家：利用自然材料完成"即兴创作"，"写给未来的自己"：记录感悟收获，书写对未来的承诺，结营节目共创：准备结营仪式上个人和团队展示节目。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">创造与疗愈、资源整合、创造力训练、自我疗愈、未来憧憬</span>
+                        </div>
+                        <div class="timeline-route">📍 昆明 → 云南昭通（车程5.5h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>7</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">回归 · 庆典预演</div>
+                        <div class="timeline-desc">结营节目准备（个人和团队节目），"感恩能量圈"团辅活动，小组合作制作晚餐，结营仪式彩排，从野外生存回归生活过渡。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">影响力构建、公开演讲、创造性表达、感恩</span>
+                        </div>
+                        <div class="timeline-route">📍 四川宜宾（昭通→宜宾，车程5h）</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-day">
+                        <small>DAY</small>
+                        <span>8</span>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">归来 · 星球加冕</div>
+                        <div class="timeline-desc">才艺总决赛（星球人人大舞台），结营仪式·星球告别，颁发《星球公民成长报告》，家庭对话工作坊（可选），荣耀加冕返程。</div>
+                        <div style="margin-top: 12px; padding: 10px 14px; background: linear-gradient(135deg, rgba(125,211,192,0.1) 0%, rgba(168,230,207,0.1) 100%); border-radius: 12px; border-left: 3px solid var(--mint);">
+                            <span style="font-size: 15px; color: var(--mint-dark); font-weight: 600;">核心能力：</span>
+                            <span style="font-size: 15px; color: var(--gray);">价值传承、成果展示、家庭沟通、价值传递</span>
+                        </div>
+                        <div class="timeline-route">📍 大学客（两江新区海王星科技大厦）（宜宾→重庆，车程3.5h）</div>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+
+        <!-- 每日作息安排 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-line"></div>
+                <h2 class="section-title gradient-text-sky">每日作息安排</h2>
+            </div>
+            
+            <div class="data-table">
+                <table>
+                    <tr>
+                        <th>时间</th>
+                        <th>安排</th>
+                    </tr>
+                    <tr>
+                        <td>8:00-9:00</td>
+                        <td>起床、晨练、早餐</td>
+                    </tr>
+                    <tr>
+                        <td>白天时间</td>
+                        <td>开展移动大舞台活动、野外生存课程、情商训练课程及个人辅导</td>
+                    </tr>
+                    <tr>
+                        <td>20:00-21:00</td>
+                        <td>使用手机，给父母报平安、社交娱乐</td>
+                    </tr>
+                    <tr>
+                        <td>22:00</td>
+                        <td>准时睡觉</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <img src="camp_images/04_campfire_real.jpg" class="section-image" alt="篝火晚会" style="margin-top: 32px;">
+        </div>
+
+        <!-- 远征营整体价值 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-dot"></div>
+                <h2 class="section-title gradient-text">您将收获的价值</h2>
+            </div>
+            <p style="text-align: center; color: var(--gray); font-size: 16px; margin-bottom: 32px; font-weight: 500;">8天7夜，2000+公里，不只是一场旅途，而是一次面向未来的能力重构。</p>
+            
+            <div class="service-card">
+                <div class="service-icon">💎</div>
+                <h3 class="service-title">孩子将带走的六大终身财富</h3>
+                <p class="service-desc"><strong>认知层：</strong>成长型思维、第一性原理思考、元认知能力<br>
+                <strong>情感层：</strong>高情商沟通、压力转化、自我悦纳<br>
+                <strong>社交层：</strong>领导力、冲突调解力、团队归属感<br>
+                <strong>行动层：</strong>风险评估、急救技能、责任意识<br>
+                <strong>表达层：</strong>公开演讲、创造性表达、感恩表达<br>
+                <strong>愿景层：</strong>自我突破经验、未来憧憬与规划</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">📋</div>
+                <h3 class="service-title">家长将获得的三重价值</h3>
+                <p class="service-desc"><strong>一份深度成长档案：</strong>包含营期行为观察记录、8大核心能力评估雷达图、个性化优势识别与发展建议、情绪模式与人际互动特点解读、后续成长路径建议。<br><br>
+                <strong>一套家庭教育指导方案：</strong>基于营期观察与前置访谈，提供亲子沟通模式优化建议、家庭规则与边界设定指导、针对孩子特点的教养策略、延伸活动与资源推荐。<br><br>
+                <strong>一次放手与重逢的契机：</strong>8天分离，见证孩子独立生活的惊喜蜕变，收获一段属于自己的宁静时光，在重逢时感受到更成熟的亲子关系。</p>
+            </div>
+            
+            <div class="info-box">
+                <h3 class="info-box-title">结营后持续陪伴</h3>
+                <p class="info-box-content">深度定制个人成长档案 + 家庭教育指导方案</p>
+                <p class="info-box-note">结营不是结束，而是另一段成长的开始。我们将为每个孩子提供后续成长跟踪服务，让营期的收获真正延续到日常生活中。</p>
+            </div>
+        </div>
+
+        <!-- 费用说明 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-line"></div>
+                <h2 class="section-title gradient-text-coral">费用说明</h2>
+            </div>
+            
+            <div class="price-box">
+                <div class="price-amount">¥9,800<span>/人</span></div>
+            </div>
+            
+            <h3 style="font-size: 16px; color: var(--dark); margin-bottom: 14px; font-weight: 800;">费用包含</h3>
+            <ul class="check-list">
+                <li>营期内7晚住宿、8天餐饮</li>
+                <li>课程所需所有物料</li>
+                <li>领队、野外生存教练、情商导师、班主任、心理咨询师、队医、生活老师等（<strong style="color: var(--coral);">师生比1:3</strong>）</li>
+                <li>入营大礼包（营服2套、帽子、水壶、学习手册、定制徽章、户外装备）</li>
+                <li>全程意外伤害保险</li>
+                <li>全程大巴车</li>
+                <li>结业证书、荣誉勋章</li>
+            </ul>
+            
+            <h3 style="margin-top: 32px; font-size: 16px; color: var(--dark); margin-bottom: 14px; font-weight: 800;">费用不包含</h3>
+            <ul class="check-list">
+                <li>出发地到集合点交通费用</li>
+                <li>活动集合前和解散后产生的个人支出</li>
+                <li>营期内个人消费、通讯费</li>
+                <li>一切未在"费用包含"内标明的其他费用</li>
+                <li>因不可抗力产生的额外费用</li>
+            </ul>
+            
+            <h3 style="margin-top: 32px; font-size: 16px; color: var(--dark); margin-bottom: 14px; font-weight: 800;">退改政策</h3>
+            <div class="data-table">
+                <table>
+                    <tr>
+                        <th>取消时间</th>
+                        <th>退款比例</th>
+                    </tr>
+                    <tr>
+                        <td>开营前30天以上</td>
+                        <td>全额退款</td>
+                    </tr>
+                    <tr>
+                        <td>开营前16至30天</td>
+                        <td>退款80%</td>
+                    </tr>
+                    <tr>
+                        <td>开营前7-15天</td>
+                        <td>退款60%</td>
+                    </tr>
+                    <tr>
+                        <td>开营前7天内（含）</td>
+                        <td>不可退款，可转让名额</td>
+                    </tr>
+                </table>
+            </div>
+            <p style="font-size: 15px; color: var(--gray); margin-top: 14px; font-weight: 500;">* 若不成团导致活动无法开展而取消，全额退款</p>
+        </div>
+
+        <!-- 出行准备 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-dot"></div>
+                <h2 class="section-title gradient-text-mint">出行准备流程</h2>
+            </div>
+            <p class="section-subtitle">我们为您准备了完整的出行服务体系，让准备过程轻松无忧。准备过程是深化亲子关系的良好契机，建议家长尊重孩子意见，共同完成。</p>
+            
+            <div class="process-steps">
+                <div class="process-item">
+                    <div class="process-num">a</div>
+                    <div class="process-text"><strong>报名成功</strong> - 服务立即启动，专属顾问1对1对接</div>
+                </div>
+                <div class="process-item">
+                    <div class="process-num">b</div>
+                    <div class="process-text"><strong>规划</strong> - 专属顾问呈递《行前须知》，明确重要时间与流程</div>
+                </div>
+                <div class="process-item">
+                    <div class="process-num">c</div>
+                    <div class="process-text"><strong>筹备</strong> - 成团后送达《成团通知》，提供行前大交通购票与行李清单推荐</div>
+                </div>
+                <div class="process-item">
+                    <div class="process-num">d</div>
+                    <div class="process-text"><strong>预热</strong> - 收到【行前大礼包】，助力提前进入项目状态</div>
+                </div>
+                <div class="process-item">
+                    <div class="process-num">e</div>
+                    <div class="process-text"><strong>集结</strong> - 出行前入群并主持【行前说明会】，与团队直接沟通</div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h3 class="info-box-title">集合地点</h3>
+                <p class="info-box-content">大学客（两江新区海王星科技大厦）</p>
+                <p class="info-box-note">* 项目价格不包含往返大交通费用，家长需自行安排孩子到集合地点</p>
+            </div>
+        </div>
+
+        <!-- 行程播报 -->
+        <div class="section">
+            <div class="title-decoration">
+                <div class="title-line"></div>
+                <h2 class="section-title gradient-text-sky">行程播报服务</h2>
+            </div>
+            <p class="section-subtitle">为了让您仿佛亲临现场，沉浸式见证孩子成长路上的每一个珍贵时刻。</p>
+            
+            <div class="service-card">
+                <div class="service-icon">👩‍🏫</div>
+                <h3 class="service-title">专属班主任全程在线陪伴</h3>
+                <p class="service-desc">项目开展期间，班主任将驻守家长群，通过<strong>实时图文与精彩短视频</strong>，为您带来沉浸式实况播报，清晰呈现每日行程动态与活动进展，让您随时随地掌握孩子的状态，不错过任何一个高光时刻与重要环节。</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">📸</div>
+                <h3 class="service-title">成长留影官用心珍藏感动</h3>
+                <p class="service-desc">专业摄影师将化身专属成长记录者，细致捕捉每个孩子在活动中<strong>专注投入的模样、灿烂真挚的笑脸，以及同伴间互帮互助、默契协作的温暖瞬间</strong>，记录您孩子一步步完成的蜕变。每日活动结束后，我们会在群内及时奉上整理完毕的高清影像合集，用画面定格美好。</p>
+            </div>
+        </div>
+
+        <!-- 报名联系 -->
+        <div class="contact-section">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <span class="badge badge-coral">🔥 立即报名</span>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-header">
+                    <h3 class="contact-title gradient-text-mint">报名咨询</h3>
+                    <p class="contact-subtitle">扫码添加微信，获取详细资料</p>
+                </div>
+                
+                <div class="contact-info-box">
+                    <div class="contact-name">蒋老师</div>
+                    <div class="contact-phone">137 5115 1970</div>
+                    <div class="contact-role">心悦星球课程顾问</div>
+                </div>
+                
+                <div class="qr-image-wrapper">
+                    <img src="camp_images/微信图片_20260327125442_2_8.jpg" class="qr-image" alt="微信二维码">
+                </div>
+                <p class="qr-hint">长按识别，添加微信咨询</p>
+            </div>
+        </div>
+
+        <!-- 品牌结尾 -->
+        <div class="brand-section">
+            <div class="brand-card">
+                <div class="brand-logo">心悦星球</div>
+                <p class="brand-tagline">专注为青少年构建AI时代的心智优势</p>
+                
+                <div class="brand-quote">
+                    "教育的目的，不是填满一桶水，而是点燃一把火。"
+                    <p class="brand-quote-author">—— 威廉·巴特勒·叶芝</p>
+                </div>
+                
+                <p class="brand-footer">让每一次远征，都成为成长的里程碑</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
