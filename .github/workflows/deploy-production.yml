@@ -17,6 +17,7 @@ env:
   PROD_URL: ${{ vars.PROD_URL }}
   OSS_BUCKET: ${{ vars.OSS_BUCKET }}
   OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
+  OSS_REGION: ${{ vars.OSS_REGION }}
   OSS_SYNC_ENABLED: ${{ vars.OSS_SYNC_ENABLED }}
 
 jobs:
@@ -90,7 +91,7 @@ jobs:
       - name: Guard when OSS sync is required but secrets are missing
         if: steps.oss_changes.outputs.requires_oss == 'true' && env.OSS_SYNC_ENABLED == 'true'
         run: |
-          if [ -z "${{ secrets.OSS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.OSS_ACCESS_KEY_SECRET }}" ] || [ -z "${OSS_BUCKET:-}" ] || [ -z "${OSS_ENDPOINT:-}" ]; then
+          if [ -z "${{ secrets.OSS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.OSS_ACCESS_KEY_SECRET }}" ] || [ -z "${OSS_BUCKET:-}" ] || [ -z "${OSS_ENDPOINT:-}" ] || [ -z "${OSS_REGION:-}" ]; then
             echo "OSS sync is enabled, but OSS credentials or variables are missing." >&2
             exit 1
           fi
@@ -142,6 +143,7 @@ jobs:
           chmod +x ossutil-2.1.0-linux-amd64/ossutil
           ./ossutil-2.1.0-linux-amd64/ossutil cp -r -f \
             -e "$OSS_ENDPOINT" \
+            --region "$OSS_REGION" \
             -i "$OSS_ACCESS_KEY_ID" \
             -k "$OSS_ACCESS_KEY_SECRET" \
             assets "oss://${OSS_BUCKET}/assets/"

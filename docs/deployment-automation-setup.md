@@ -59,6 +59,7 @@ Set these in:
 
 - `OSS_BUCKET = mindevo-static`
 - `OSS_ENDPOINT = oss-cn-hangzhou.aliyuncs.com`
+- `OSS_REGION = cn-hangzhou`
 - `OSS_SYNC_ENABLED = false`
 
 Set `OSS_SYNC_ENABLED = true` only after OSS credentials are configured and tested.
