@@ -140,8 +140,11 @@ jobs:
           curl -fsSL "https://gosspublic.alicdn.com/ossutil/v2/2.1.0/ossutil-2.1.0-linux-amd64.zip" -o ossutil.zip
           unzip -q ossutil.zip
           chmod +x ossutil-2.1.0-linux-amd64/ossutil
-          ./ossutil-2.1.0-linux-amd64/ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" --language EN
-          ./ossutil-2.1.0-linux-amd64/ossutil cp -r -f assets "oss://${OSS_BUCKET}/assets/"
+          ./ossutil-2.1.0-linux-amd64/ossutil cp -r -f \
+            -e "$OSS_ENDPOINT" \
+            -i "$OSS_ACCESS_KEY_ID" \
+            -k "$OSS_ACCESS_KEY_SECRET" \
+            assets "oss://${OSS_BUCKET}/assets/"
 
       - name: Smoke check production URLs
         run: |
