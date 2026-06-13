@@ -1,0 +1,101 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+
+concurrency:
+  group: staging-deploy
+  cancel-in-progress: false
+
+env:
+  STAGING_DEPLOY_HOST: ${{ vars.STAGING_DEPLOY_HOST }}
+  STAGING_DEPLOY_USER: ${{ vars.STAGING_DEPLOY_USER }}
+  STAGING_WEB_ROOT: ${{ vars.STAGING_WEB_ROOT }}
+  STAGING_URL: ${{ vars.STAGING_URL }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Internal link check
+        shell: pwsh
+        run: ./scripts/check-site-links.ps1 -SourceDir "$PWD"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required variables
+        run: |
+          set -euo pipefail
+          for value in STAGING_DEPLOY_HOST STAGING_DEPLOY_USER STAGING_WEB_ROOT STAGING_URL; do
+            if [ -z "${!value:-}" ]; then
+              echo "Missing required GitHub variable: $value" >&2
+              exit 1
+            fi
+          done
+          if [ -z "${{ secrets.DEPLOY_SSH_KEY }}" ]; then
+            echo "Missing required GitHub secret: DEPLOY_SSH_KEY" >&2
+            exit 1
+          fi
+
+      - name: Install SSH key
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > "$HOME/.ssh/mindevo_deploy_ed25519"
+          chmod 600 "$HOME/.ssh/mindevo_deploy_ed25519"
+          ssh-keyscan -H "$STAGING_DEPLOY_HOST" >> "$HOME/.ssh/known_hosts"
+
+      - name: Prepare release bundle
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          for item in index.html 404.html robots.txt sitemap.xml assets contact open-programs privacy products programs; do
+            if [ -e "$item" ]; then
+              cp -a "$item" release/
+            fi
+          done
+
+      - name: Deploy website files to staging
+        run: |
+          set -euo pipefail
+          stamp="$(date +%Y%m%d-%H%M%S)"
+          remote="${STAGING_DEPLOY_USER}@${STAGING_DEPLOY_HOST}"
+          remote_release="/tmp/mindevo-staging-release-${stamp}"
+          remote_parent="$(dirname "$STAGING_WEB_ROOT")"
+          remote_backup_root="${remote_parent}/mindevo-staging-backups"
+          remote_backup="${remote_backup_root}/site-${stamp}.tgz"
+
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_release' '$remote_backup_root' && test -d '$STAGING_WEB_ROOT' && tar -C '$STAGING_WEB_ROOT' -czf '$remote_backup' ."
+          scp -i "$HOME/.ssh/mindevo_deploy_ed25519" -r release/* "${remote}:${remote_release}/"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/assets '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/contact '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/products '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/programs '$STAGING_WEB_ROOT'/ && find '$STAGING_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$STAGING_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
+
+      - name: Smoke check staging URLs
+        run: |
+          set -euo pipefail
+          urls=(
+            "${STAGING_URL}/"
+            "${STAGING_URL}/products/"
+            "${STAGING_URL}/open-programs/"
+            "${STAGING_URL}/programs/spectrum-ai/"
+            "${STAGING_URL}/programs/survival-expedition/"
+            "${STAGING_URL}/contact/"
+            "${STAGING_URL}/privacy/"
+            "${STAGING_URL}/robots.txt"
+            "${STAGING_URL}/sitemap.xml"
+          )
+          for url in "${urls[@]}"; do
+            code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
+            echo "$code $url"
+            test "$code" = "200"
+          done

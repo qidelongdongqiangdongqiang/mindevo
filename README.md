@@ -1,6 +1,27 @@
 # 心悦星球 MindEvo 官网
 
-> 专注为青少年构建AI时代的心智优势
+> 专注为青少年构建 AI 时代的心智优势
+
+## 当前工作方式
+
+- GitHub 仓库是代码唯一事实源
+- 阿里云服务器是生产运行环境
+- OSS 是静态资源分发层
+- 本地运维入口在 `C:\Users\cn_pe\Documents\mindevo-ops`
+
+## 自动化状态
+
+仓库内已经包含：
+
+- PR / Push 的站内链接检查
+- `main` 分支自动部署到生产
+- `staging` 分支自动部署到预发布
+
+完整的一次性配置说明见：
+
+```text
+docs/deployment-automation-setup.md
+```
 
 ## 网站结构
 

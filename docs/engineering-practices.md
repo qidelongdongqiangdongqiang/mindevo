@@ -35,6 +35,18 @@ cd C:\Users\cn_pe\Documents\mindevo-ops
 .\deploy-static-site.ps1 -SourceDir "C:\Users\cn_pe\Documents\mindevo" -RemoteWebRoot "/var/www/mindevo" -SkipOss
 ```
 
+The repository also contains GitHub Actions for:
+
+- `Site Checks` on pull requests and pushes
+- automatic production deploy on `main`
+- automatic staging deploy on `staging`
+
+One-time setup details live in:
+
+```text
+docs/deployment-automation-setup.md
+```
+
 ## Rollback
 
 Every deployment must have a server backup. Record the backup path in `CHANGELOG.md`.

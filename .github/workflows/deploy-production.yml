@@ -1,0 +1,158 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+env:
+  PROD_DEPLOY_HOST: ${{ vars.PROD_DEPLOY_HOST }}
+  PROD_DEPLOY_USER: ${{ vars.PROD_DEPLOY_USER }}
+  PROD_WEB_ROOT: ${{ vars.PROD_WEB_ROOT }}
+  PROD_URL: ${{ vars.PROD_URL }}
+  OSS_BUCKET: ${{ vars.OSS_BUCKET }}
+  OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
+  OSS_SYNC_ENABLED: ${{ vars.OSS_SYNC_ENABLED }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Internal link check
+        shell: pwsh
+        run: ./scripts/check-site-links.ps1 -SourceDir "$PWD"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required variables
+        run: |
+          set -euo pipefail
+          for value in PROD_DEPLOY_HOST PROD_DEPLOY_USER PROD_WEB_ROOT PROD_URL; do
+            if [ -z "${!value:-}" ]; then
+              echo "Missing required GitHub variable: $value" >&2
+              exit 1
+            fi
+          done
+          if [ -z "${{ secrets.DEPLOY_SSH_KEY }}" ]; then
+            echo "Missing required GitHub secret: DEPLOY_SSH_KEY" >&2
+            exit 1
+          fi
+
+      - name: Detect whether OSS-backed assets changed
+        id: oss_changes
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            base_ref="${{ github.event.before }}"
+          else
+            base_ref="$(git rev-parse HEAD~1)"
+          fi
+          git diff --name-only "$base_ref" "$GITHUB_SHA" > changed-files.txt || true
+          cat changed-files.txt
+          requires_oss=false
+          while IFS= read -r file; do
+            case "$file" in
+              assets/*)
+                if [ "$file" != "assets/js/analytics.js" ] && [ "$file" != "assets/js/tracking-config.js" ]; then
+                  requires_oss=true
+                fi
+                ;;
+            esac
+          done < changed-files.txt
+          echo "requires_oss=$requires_oss" >> "$GITHUB_OUTPUT"
+
+      - name: Guard when OSS sync is required but disabled
+        if: steps.oss_changes.outputs.requires_oss == 'true' && env.OSS_SYNC_ENABLED != 'true'
+        run: |
+          echo "This deployment changes OSS-backed assets, but OSS_SYNC_ENABLED is not true." >&2
+          echo "Enable OSS sync in GitHub variables and configure OSS secrets before deploying this change." >&2
+          exit 1
+
+      - name: Guard when OSS sync is required but secrets are missing
+        if: steps.oss_changes.outputs.requires_oss == 'true' && env.OSS_SYNC_ENABLED == 'true'
+        run: |
+          if [ -z "${{ secrets.OSS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.OSS_ACCESS_KEY_SECRET }}" ] || [ -z "${OSS_BUCKET:-}" ] || [ -z "${OSS_ENDPOINT:-}" ]; then
+            echo "OSS sync is enabled, but OSS credentials or variables are missing." >&2
+            exit 1
+          fi
+
+      - name: Install SSH key
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.ssh"
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > "$HOME/.ssh/mindevo_deploy_ed25519"
+          chmod 600 "$HOME/.ssh/mindevo_deploy_ed25519"
+          ssh-keyscan -H "$PROD_DEPLOY_HOST" >> "$HOME/.ssh/known_hosts"
+
+      - name: Prepare release bundle
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          for item in index.html 404.html robots.txt sitemap.xml assets contact open-programs privacy products programs; do
+            if [ -e "$item" ]; then
+              cp -a "$item" release/
+            fi
+          done
+
+      - name: Deploy website files to server
+        run: |
+          set -euo pipefail
+          stamp="$(date +%Y%m%d-%H%M%S)"
+          remote="${PROD_DEPLOY_USER}@${PROD_DEPLOY_HOST}"
+          remote_release="/tmp/mindevo-release-${stamp}"
+          remote_parent="$(dirname "$PROD_WEB_ROOT")"
+          remote_backup_root="${remote_parent}/mindevo-backups"
+          remote_backup="${remote_backup_root}/site-${stamp}.tgz"
+
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_release' '$remote_backup_root' && test -d '$PROD_WEB_ROOT' && tar -C '$PROD_WEB_ROOT' -czf '$remote_backup' ."
+          scp -i "$HOME/.ssh/mindevo_deploy_ed25519" -r release/* "${remote}:${remote_release}/"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/assets '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/contact '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/products '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/programs '$PROD_WEB_ROOT'/ && find '$PROD_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$PROD_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
+          echo "backup_path=$remote_backup" >> "$GITHUB_OUTPUT"
+
+      - name: Upload assets to OSS
+        if: env.OSS_SYNC_ENABLED == 'true'
+        env:
+          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          curl -fsSL "https://gosspublic.alicdn.com/ossutil/v2/2.1.0/ossutil-2.1.0-linux-amd64.zip" -o ossutil.zip
+          unzip -q ossutil.zip
+          chmod +x ossutil-2.1.0-linux-amd64/ossutil
+          ./ossutil-2.1.0-linux-amd64/ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" --language EN
+          ./ossutil-2.1.0-linux-amd64/ossutil cp -r -f assets "oss://${OSS_BUCKET}/assets/"
+
+      - name: Smoke check production URLs
+        run: |
+          set -euo pipefail
+          urls=(
+            "${PROD_URL}/"
+            "${PROD_URL}/products/"
+            "${PROD_URL}/open-programs/"
+            "${PROD_URL}/programs/spectrum-ai/"
+            "${PROD_URL}/programs/survival-expedition/"
+            "${PROD_URL}/contact/"
+            "${PROD_URL}/privacy/"
+            "${PROD_URL}/robots.txt"
+            "${PROD_URL}/sitemap.xml"
+          )
+          for url in "${urls[@]}"; do
+            code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
+            echo "$code $url"
+            test "$code" = "200"
+          done
