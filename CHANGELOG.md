@@ -6,6 +6,18 @@ All notable production website changes are recorded here.
 
 ### Added
 
+- Added a privacy notice page draft at `/privacy/`.
+- Added footer links to the privacy notice.
+- Added the privacy page to `sitemap.xml`.
+
+### Pending Deployment
+
+- Privacy notice page requires production deployment after business review.
+
+## 2026-06-13 Initial Operations Baseline
+
+### Added
+
 - Added `robots.txt`, `sitemap.xml`, and `404.html`.
 - Added canonical URLs to core pages.
 - Added analytics loader and tracking configuration.
@@ -14,6 +26,5 @@ All notable production website changes are recorded here.
 
 ### Operational Notes
 
-- Production server: `deploy@121.40.130.19:/var/www/mindevo`
-- Backup after analytics deployment: `/var/www/mindevo-backups/site-20260613-075203.tgz`
+- Detailed deployment and backup records are kept in the private local ops directory.
 - Verification: core site URLs, `robots.txt`, `sitemap.xml`, and analytics config returned HTTP 200.

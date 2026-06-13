@@ -15,6 +15,7 @@ Use this checklist before every production deployment.
 - [ ] `git diff` reviewed.
 - [ ] JavaScript syntax checked if JS changed.
 - [ ] `sitemap.xml` parsed if sitemap changed.
+- [ ] Internal links checked with `check-site-links.ps1`.
 - [ ] Core pages opened locally or from a local static server.
 
 ## 3. Commit
@@ -37,6 +38,7 @@ Use this checklist before every production deployment.
 - [ ] https://www.mindevo.club/programs/spectrum-ai/
 - [ ] https://www.mindevo.club/programs/survival-expedition/
 - [ ] https://www.mindevo.club/contact/
+- [ ] https://www.mindevo.club/privacy/
 - [ ] https://www.mindevo.club/robots.txt
 - [ ] https://www.mindevo.club/sitemap.xml
 - [ ] https://www.mindevo.club/assets/js/tracking-config.js
