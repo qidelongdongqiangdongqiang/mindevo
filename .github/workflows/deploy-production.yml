@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Internal link check
         shell: pwsh
@@ -58,7 +60,11 @@ jobs:
           if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
             base_ref="${{ github.event.before }}"
           else
-            base_ref="$(git rev-parse HEAD~1)"
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              base_ref="$(git rev-parse HEAD~1)"
+            else
+              base_ref="$GITHUB_SHA"
+            fi
           fi
           git diff --name-only "$base_ref" "$GITHUB_SHA" > changed-files.txt || true
           cat changed-files.txt
