@@ -87,7 +87,6 @@ jobs:
             "${STAGING_URL}/"
             "${STAGING_URL}/products/"
             "${STAGING_URL}/open-programs/"
-            "${STAGING_URL}/programs/spectrum-ai/"
             "${STAGING_URL}/programs/spectrum-ai-4/"
             "${STAGING_URL}/programs/survival-expedition/"
             "${STAGING_URL}/contact/"

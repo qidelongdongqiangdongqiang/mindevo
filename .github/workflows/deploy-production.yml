@@ -155,7 +155,6 @@ jobs:
             "${PROD_URL}/"
             "${PROD_URL}/products/"
             "${PROD_URL}/open-programs/"
-            "${PROD_URL}/programs/spectrum-ai/"
             "${PROD_URL}/programs/spectrum-ai-4/"
             "${PROD_URL}/programs/survival-expedition/"
             "${PROD_URL}/contact/"
