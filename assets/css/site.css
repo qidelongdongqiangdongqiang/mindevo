@@ -1898,6 +1898,21 @@ h3 {
   color: var(--green);
 }
 
+.status-category {
+  background: rgba(74, 45, 79, .1);
+  color: var(--green);
+}
+
+.status-open {
+  background: rgba(44, 124, 83, .14);
+  color: #2f7d55;
+}
+
+.status-closed {
+  background: rgba(173, 67, 67, .14);
+  color: #a84242;
+}
+
 .admission-card h2 {
   margin: 10px 0 10px;
   font-size: clamp(28px, 2.6vw, 38px);
