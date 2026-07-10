@@ -63,6 +63,14 @@ Rollback uses the backup stored under:
 - `assets/js/tracking-config.js` owns platform IDs and enable/disable flags.
 - Keep `tracking-config.js` on the main site unless a stronger cache invalidation strategy is added.
 
+## WeChat Sharing
+
+- Every shareable page must keep canonical URL and `og:*` tags aligned.
+- Internal links to enrollment pages should use canonical directory URLs such as `/programs/spectrum-ai-4/`, not `/programs/spectrum-ai-4/index.html`.
+- `assets/js/wechat-share.js` owns the browser-side WeChat JS-SDK setup.
+- `services/wechat-share/wechat_signature_service.py` owns the server-side signature endpoint.
+- Run `scripts/check-wechat-share.ps1` before deployment when changing page metadata, enrollment URLs, or share scripts.
+
 ## OSS
 
 Put large and stable assets on OSS:

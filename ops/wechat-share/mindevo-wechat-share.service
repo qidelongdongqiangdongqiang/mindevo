@@ -1,0 +1,19 @@
+[Unit]
+Description=MindEvo WeChat JS-SDK share signature service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=deploy
+Group=deploy
+WorkingDirectory=/var/www/mindevo-services/wechat-share
+EnvironmentFile=/etc/mindevo/wechat-share.env
+ExecStart=/usr/bin/python3 /var/www/mindevo-services/wechat-share/wechat_signature_service.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -17,3 +17,7 @@ jobs:
       - name: Internal link check
         shell: pwsh
         run: ./scripts/check-site-links.ps1 -SourceDir "$PWD"
+
+      - name: WeChat share configuration check
+        shell: pwsh
+        run: ./scripts/check-wechat-share.ps1 -SourceDir "$PWD"

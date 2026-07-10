@@ -26,6 +26,12 @@ For staging:
 - `.github/workflows/deploy-production.yml`
 - `.github/workflows/deploy-staging.yml`
 
+The checks also validate WeChat share wiring:
+
+- shareable pages include the WeChat JS-SDK loader
+- canonical enrollment links do not regress to `index.html`
+- the WeChat signature service files are present
+
 ## Required GitHub Secrets
 
 Set these in the repository settings:
@@ -41,6 +47,11 @@ Set these in the repository settings:
 
 - `OSS_ACCESS_KEY_ID`
 - `OSS_ACCESS_KEY_SECRET`
+
+### Required when WeChat share automation is enabled
+
+- `WECHAT_APP_ID`
+- `WECHAT_APP_SECRET`
 
 ## Required GitHub Variables
 
@@ -63,6 +74,16 @@ Set these in:
 - `OSS_SYNC_ENABLED = false`
 
 Set `OSS_SYNC_ENABLED = true` only after OSS credentials are configured and tested.
+
+### WeChat Share
+
+- `WECHAT_SHARE_ENABLED = false`
+
+Set `WECHAT_SHARE_ENABLED = true` only after:
+
+1. the ECS root setup in `docs/wechat-share-automation.md` has been completed
+2. the WeChat Official Account JS interface security domain includes `www.mindevo.club`
+3. `WECHAT_APP_ID` and `WECHAT_APP_SECRET` have been added as GitHub Actions secrets
 
 ### Staging
 

@@ -19,6 +19,7 @@ env:
   OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
   OSS_REGION: ${{ vars.OSS_REGION }}
   OSS_SYNC_ENABLED: ${{ vars.OSS_SYNC_ENABLED }}
+  WECHAT_SHARE_ENABLED: ${{ vars.WECHAT_SHARE_ENABLED }}
 
 jobs:
   validate:
@@ -32,6 +33,10 @@ jobs:
       - name: Internal link check
         shell: pwsh
         run: ./scripts/check-site-links.ps1 -SourceDir "$PWD"
+
+      - name: WeChat share configuration check
+        shell: pwsh
+        run: ./scripts/check-wechat-share.ps1 -SourceDir "$PWD"
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,6 +54,12 @@ jobs:
               exit 1
             fi
           done
+          if [ "${WECHAT_SHARE_ENABLED:-false}" = "true" ]; then
+            if [ -z "${{ secrets.WECHAT_APP_ID }}" ] || [ -z "${{ secrets.WECHAT_APP_SECRET }}" ]; then
+              echo "WECHAT_SHARE_ENABLED is true, but WECHAT_APP_ID or WECHAT_APP_SECRET is missing." >&2
+              exit 1
+            fi
+          fi
           if [ -z "${{ secrets.DEPLOY_SSH_KEY }}" ]; then
             echo "Missing required GitHub secret: DEPLOY_SSH_KEY" >&2
             exit 1
@@ -73,7 +84,7 @@ jobs:
           while IFS= read -r file; do
             case "$file" in
               assets/*)
-                if [ "$file" != "assets/js/analytics.js" ] && [ "$file" != "assets/js/tracking-config.js" ]; then
+                if [ "$file" != "assets/js/analytics.js" ] && [ "$file" != "assets/js/tracking-config.js" ] && [ "$file" != "assets/js/wechat-share.js" ]; then
                   requires_oss=true
                 fi
                 ;;
@@ -129,6 +140,29 @@ jobs:
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/assets '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/contact '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/products '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/programs '$PROD_WEB_ROOT'/ && find '$PROD_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$PROD_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
           echo "backup_path=$remote_backup" >> "$GITHUB_OUTPUT"
 
+      - name: Deploy WeChat share service
+        if: env.WECHAT_SHARE_ENABLED == 'true'
+        env:
+          WECHAT_APP_ID: ${{ secrets.WECHAT_APP_ID }}
+          WECHAT_APP_SECRET: ${{ secrets.WECHAT_APP_SECRET }}
+        run: |
+          set -euo pipefail
+          remote="${PROD_DEPLOY_USER}@${PROD_DEPLOY_HOST}"
+          remote_service_dir="/var/www/mindevo-services/wechat-share"
+          mkdir -p wechat-share-release
+          cp services/wechat-share/wechat_signature_service.py services/wechat-share/README.md wechat-share-release/
+          umask 077
+          {
+            printf 'WECHAT_APP_ID=%s\n' "$WECHAT_APP_ID"
+            printf 'WECHAT_APP_SECRET=%s\n' "$WECHAT_APP_SECRET"
+            printf 'WECHAT_ALLOWED_HOSTS=www.mindevo.club,mindevo.club\n'
+            printf 'WECHAT_SHARE_PORT=8710\n'
+          } > wechat-share.env
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_service_dir'"
+          scp -i "$HOME/.ssh/mindevo_deploy_ed25519" wechat-share-release/* "${remote}:${remote_service_dir}/"
+          scp -i "$HOME/.ssh/mindevo_deploy_ed25519" wechat-share.env "${remote}:/tmp/mindevo-wechat-share.env"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p /var/www/mindevo-services && chmod 700 /tmp/mindevo-wechat-share.env && test -d /etc/mindevo && test -w /etc/mindevo && cp /tmp/mindevo-wechat-share.env /etc/mindevo/wechat-share.env && chmod 600 /etc/mindevo/wechat-share.env && rm -f /tmp/mindevo-wechat-share.env && if pgrep -u '$PROD_DEPLOY_USER' -f wechat_signature_service.py >/dev/null 2>&1; then pkill -u '$PROD_DEPLOY_USER' -f wechat_signature_service.py; fi"
+
       - name: Upload assets to OSS
         if: env.OSS_SYNC_ENABLED == 'true'
         env:
@@ -167,3 +201,10 @@ jobs:
             echo "$code $url"
             test "$code" = "200"
           done
+          if [ "${WECHAT_SHARE_ENABLED:-false}" = "true" ]; then
+            health_url="${PROD_URL}/api/wechat-js-signature/health"
+            body="$(curl -fsS "$health_url")"
+            echo "$body"
+            echo "$body" | grep '"ok": true'
+            echo "$body" | grep '"configured": true'
+          fi

@@ -2,6 +2,27 @@
 
 All notable production website changes are recorded here.
 
+## 2026-07-10
+
+### Added
+
+- Added WeChat JS-SDK share wiring for shareable pages.
+- Added a dependency-free Python WeChat signature service under `services/wechat-share/`.
+- Added one-time ECS root setup assets under `ops/wechat-share/`.
+- Added CI validation with `scripts/check-wechat-share.ps1`.
+- Added WeChat share automation documentation.
+
+### Changed
+
+- Standardized AI spectrum camp internal links to `/programs/spectrum-ai-4/` instead of `/programs/spectrum-ai-4/index.html`.
+
+### Manual Setup Required
+
+- Run the ECS root setup in `ops/wechat-share/`.
+- Configure the WeChat Official Account JS interface security domain for `www.mindevo.club`.
+- Add `WECHAT_APP_ID` and `WECHAT_APP_SECRET` GitHub Actions secrets.
+- Set `WECHAT_SHARE_ENABLED=true` after the above is complete.
+
 ## 2026-06-13
 
 ### Added

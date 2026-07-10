@@ -47,13 +47,22 @@ docs/deployment-automation-setup.md
 
 ## 微信分享配置
 
-所有页面已配置完整的 Open Graph (OG) 标签：
-- `og:title` - 页面标题
-- `og:description` - 页面描述
-- `og:image` - 分享缩略图
-- `og:url` - 页面链接
-- `og:site_name` - 网站名称
-- `og:locale` - 语言区域
+所有可分享页面使用两层配置：
+
+- Open Graph (OG) 标签负责标题、描述、图片和规范链接
+- 微信 JS-SDK 负责在微信内显式注册分享卡片
+
+微信 JS-SDK 签名由仓库内的 Python 服务提供：
+
+```text
+services/wechat-share/wechat_signature_service.py
+```
+
+自动化与一次性服务器配置说明见：
+
+```text
+docs/wechat-share-automation.md
+```
 
 ## 本地预览
 
