@@ -22,3 +22,6 @@ id_ed25519*
 # Local generated snapshots
 mindevo-production-*/
 backups/
+# Python cache
+__pycache__/
+*.pyc
