@@ -69,9 +69,12 @@
   }
 
   function configureWeChat(signature) {
-    if (!window.wx || !signature || !signature.ok) return;
+    if (!window.wx || !signature || !signature.ok) {
+      alert("[mindevo-share] signature unavailable: " + JSON.stringify(signature));
+      return;
+    }
     wx.config({
-      debug: false,
+      debug: true,
       appId: signature.appId,
       timestamp: Number(signature.timestamp),
       nonceStr: signature.nonceStr,
@@ -83,17 +86,19 @@
         "onMenuShareTimeline",
       ],
     });
-    wx.ready(applyShareData);
+    wx.ready(function () {
+      applyShareData();
+    });
     wx.error(function (err) {
-      if (window.console && console.warn) {
-        console.warn("WeChat share config failed", err);
-      }
+      alert("[mindevo-share] wx.config failed: " + JSON.stringify(err));
     });
   }
 
   function init() {
     if (!window.wx || !window.fetch) return;
-    var api = "/api/wechat-js-signature/sign?url=" + encodeURIComponent(currentUrlForSignature());
+    var signUrl = currentUrlForSignature();
+    alert("[mindevo-share] page url for signature: " + signUrl);
+    var api = "/api/wechat-js-signature/sign?url=" + encodeURIComponent(signUrl);
     fetch(api, { credentials: "same-origin" })
       .then(function (response) {
         if (!response.ok) throw new Error("signature request failed");
@@ -101,9 +106,7 @@
       })
       .then(configureWeChat)
       .catch(function (err) {
-        if (window.console && console.warn) {
-          console.warn("WeChat share signature unavailable", err);
-        }
+        alert("[mindevo-share] signature fetch failed: " + err);
       });
   }
 

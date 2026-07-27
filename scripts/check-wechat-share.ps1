@@ -11,19 +11,19 @@ $htmlFiles = Get-ChildItem -Path $resolvedSourceDir -Recurse -Filter *.html | Wh
 }
 
 $failures = New-Object System.Collections.Generic.List[string]
-$shareScript = '/assets/js/wechat-share.js?v=20260710'
+$jweixinLoader = '<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>'
+# Match the share loader with any (optional) cache-bust query, e.g. ?v=20260710.
+$shareLoaderPattern = '<script\s+src="/assets/js/wechat-share\.js(\?[^"]*)?"\s*></script>'
 
 foreach ($file in $htmlFiles) {
   $content = Get-Content -LiteralPath $file.FullName -Raw
   $hasOgTitle = $content -match '<meta\s+property=["'']og:title["'']'
   if ($hasOgTitle) {
-    foreach ($required in @(
-      '<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>',
-      "<script src=`"$shareScript`"></script>"
-    )) {
-      if ($content -notlike "*$required*") {
-        $failures.Add("$($file.FullName): missing WeChat share loader: $required")
-      }
+    if ($content -notlike "*$jweixinLoader*") {
+      $failures.Add("$($file.FullName): missing WeChat JS-SDK loader (jweixin)")
+    }
+    if ($content -notmatch $shareLoaderPattern) {
+      $failures.Add("$($file.FullName): missing WeChat share loader (/assets/js/wechat-share.js)")
     }
   }
 
