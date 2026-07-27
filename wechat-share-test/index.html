@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>微信分享测试页｜心悦星球 MindEvo</title>
+  <meta name="description" content="这是一个微信分享测试页，用于验证 og:image 使用 JPG 时是否能正常显示分享卡片。">
+  <link rel="canonical" href="https://www.mindevo.club/wechat-share-test/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="微信分享测试页｜心悦星球 MindEvo">
+  <meta property="og:description" content="这是一个微信分享测试页，用于验证 og:image 使用 JPG 时是否能正常显示分享卡片。">
+  <meta property="og:image" content="https://mindevo-static.oss-cn-hangzhou.aliyuncs.com/assets/images/og-image.jpg">
+  <meta property="og:url" content="https://www.mindevo.club/wechat-share-test/">
+  <meta property="og:site_name" content="心悦星球 MindEvo">
+  <meta property="og:locale" content="zh_CN">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; line-height: 1.6; color: #333; }
+    h1 { font-size: 24px; margin-bottom: 16px; }
+    p { margin: 12px 0; }
+    .box { background: #f5f5f5; border-radius: 8px; padding: 20px; margin: 24px 0; }
+    code { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+    img { max-width: 100%; border-radius: 8px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <h1>微信分享测试页</h1>
+  <p>请点右上角「···」→「转发给朋友」，看这条消息是否是<strong>带小图的卡片</strong>。</p>
+  <div class="box">
+    <p><strong>当前测试条件：</strong></p>
+    <ul>
+      <li>页面地址：<code>https://www.mindevo.club/wechat-share-test/</code></li>
+      <li>未加载 <code>wechat-share.js</code>（纯 og 标签测试）</li>
+      <li><code>og:image</code> 使用 <strong>JPG</strong> 格式</li>
+    </ul>
+  </div>
+  <p>如果你看到的是带标题、描述、小图的卡片 → 说明 JPG 能正常被微信抓取，问题指向 WebP 不兼容。</p>
+  <p>如果你看到的还是纯网址 → 说明问题不在图片格式，需要继续排查。</p>
+  <img src="https://mindevo-static.oss-cn-hangzhou.aliyuncs.com/assets/images/og-image.jpg" alt="测试图">
+</body>
+</html>
