@@ -19,15 +19,20 @@
   }
 
   function currentUrlForSignature() {
-    return window.location.href.split("#")[0];
-  }
-
-  function canonicalShareUrl() {
+    // WeChat may append tracking params (e.g. ?from=singlemessage) to the
+    // address bar when the page is opened from a chat link. We sign the
+    // canonical URL (og:url / canonical link) instead of the raw current URL,
+    // because WeChat's signature verification uses the canonical page URL in
+    // those scenarios. The share link is also set to the same canonical URL.
     return (
       meta('meta[property="og:url"]') ||
       meta('link[rel="canonical"]') ||
-      currentUrlForSignature()
+      window.location.href.split("#")[0]
     );
+  }
+
+  function canonicalShareUrl() {
+    return currentUrlForSignature();
   }
 
   function shareData() {
