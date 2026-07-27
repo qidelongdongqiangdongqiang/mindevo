@@ -44,18 +44,10 @@
     var data = shareData();
     if (!data.link || !data.imgUrl) return;
 
-    if (wx.updateAppMessageShareData) {
-      wx.updateAppMessageShareData(data);
-    }
-    if (wx.updateTimelineShareData) {
-      wx.updateTimelineShareData({
-        title: data.title,
-        link: data.link,
-        imgUrl: data.imgUrl,
-      });
-    }
-
-    // Older WeChat clients still rely on these APIs.
+    // Use the legacy share APIs: they have the broadest compatibility across
+    // WeChat service accounts and avoid the "function not implement" errors
+    // seen with updateAppMessageShareData / updateTimelineShareData on some
+    // accounts and WeChat client versions.
     if (wx.onMenuShareAppMessage) {
       wx.onMenuShareAppMessage(data);
     }
@@ -77,8 +69,6 @@
       nonceStr: signature.nonceStr,
       signature: signature.signature,
       jsApiList: [
-        "updateAppMessageShareData",
-        "updateTimelineShareData",
         "onMenuShareAppMessage",
         "onMenuShareTimeline",
       ],
