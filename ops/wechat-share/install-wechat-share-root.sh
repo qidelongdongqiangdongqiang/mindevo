@@ -32,6 +32,16 @@ fi
 install -m 0644 ./mindevo-wechat-share.service "$SERVICE_FILE"
 install -m 0644 ./mindevo-wechat-share-nginx.conf "$NGINX_SNIPPET"
 
+# Let the deploy user restart only this one service without a password.
+# The GitHub Actions deploy workflow relies on this to (re)start the signer
+# after each release; the deploy user has no other sudo rights.
+SUDOERS_FILE="/etc/sudoers.d/mindevo-wechat-share"
+cat > "$SUDOERS_FILE" <<'SUDOERS'
+deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart mindevo-wechat-share.service
+SUDOERS
+chmod 440 "$SUDOERS_FILE"
+visudo -cf "$SUDOERS_FILE" >/dev/null
+
 if ! grep -q "mindevo-wechat-share.conf" "$NGINX_CONF"; then
   python3 - "$NGINX_CONF" <<'PY'
 import pathlib
@@ -52,4 +62,4 @@ systemctl enable mindevo-wechat-share.service
 
 nginx -t
 systemctl reload nginx
-echo "WeChat share root setup complete. After deploying service code, run: systemctl restart mindevo-wechat-share.service"
+echo "WeChat share root setup complete. The deploy workflow will restart the service automatically on each release once WECHAT_SHARE_ENABLED=true."

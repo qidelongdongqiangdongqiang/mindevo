@@ -21,25 +21,18 @@ cd /path/to/repo/ops/wechat-share
 bash install-wechat-share-root.sh
 ```
 
-Then edit:
-
-```text
-/etc/mindevo/wechat-share.env
-```
-
-Set:
-
-```text
-WECHAT_APP_ID=...
-WECHAT_APP_SECRET=...
-WECHAT_ALLOWED_HOSTS=www.mindevo.club,mindevo.club
-WECHAT_SHARE_PORT=8710
-```
+The script creates a placeholder `/etc/mindevo/wechat-share.env`. You do not need to edit it manually — the production deploy writes the real `WECHAT_APP_ID` / `WECHAT_APP_SECRET` into it from the GitHub secrets on each release. The placeholder only needs to exist so directory ownership is correct.
 
 Also configure the WeChat Official Account JS interface security domain:
 
 ```text
 www.mindevo.club
+```
+
+Also add the server's outbound IP to the Official Account IP whitelist, otherwise the `access_token` call is rejected with `errcode 40164`:
+
+```text
+121.40.130.19
 ```
 
 ## GitHub Actions Settings
@@ -57,7 +50,7 @@ WECHAT_APP_ID
 WECHAT_APP_SECRET
 ```
 
-When `WECHAT_SHARE_ENABLED=true`, production deployment copies the signer service, writes the server env file, restarts the service by killing the old deploy-owned process, and smoke-checks:
+When `WECHAT_SHARE_ENABLED=true`, production deployment copies the signer service, writes the server env file (from the GitHub secrets), restarts the service via `sudo systemctl restart mindevo-wechat-share.service` (the root setup grants `deploy` a narrow sudoers rule for this one command), and smoke-checks:
 
 ```text
 https://www.mindevo.club/api/wechat-js-signature/health

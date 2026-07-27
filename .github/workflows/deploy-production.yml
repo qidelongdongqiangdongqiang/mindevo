@@ -161,7 +161,7 @@ jobs:
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_service_dir'"
           scp -i "$HOME/.ssh/mindevo_deploy_ed25519" wechat-share-release/* "${remote}:${remote_service_dir}/"
           scp -i "$HOME/.ssh/mindevo_deploy_ed25519" wechat-share.env "${remote}:/tmp/mindevo-wechat-share.env"
-          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p /var/www/mindevo-services && chmod 700 /tmp/mindevo-wechat-share.env && test -d /etc/mindevo && test -w /etc/mindevo && cp /tmp/mindevo-wechat-share.env /etc/mindevo/wechat-share.env && chmod 600 /etc/mindevo/wechat-share.env && rm -f /tmp/mindevo-wechat-share.env && if pgrep -u '$PROD_DEPLOY_USER' -f wechat_signature_service.py >/dev/null 2>&1; then pkill -u '$PROD_DEPLOY_USER' -f wechat_signature_service.py; fi"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p /var/www/mindevo-services && chmod 700 /tmp/mindevo-wechat-share.env && test -d /etc/mindevo && test -w /etc/mindevo && cp /tmp/mindevo-wechat-share.env /etc/mindevo/wechat-share.env && chmod 600 /etc/mindevo/wechat-share.env && rm -f /tmp/mindevo-wechat-share.env && sudo -n systemctl restart mindevo-wechat-share.service"
 
       - name: Upload assets to OSS
         if: env.OSS_SYNC_ENABLED == 'true'

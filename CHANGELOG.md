@@ -2,6 +2,26 @@
 
 All notable production website changes are recorded here.
 
+## 2026-07-27
+
+### Added
+
+- Activated WeChat JS-SDK share end-to-end: signature service now runs on production.
+- Placed the WeChat domain verification file at the site root (`MP_verify_HBYoLW5XmmDmHFjn.txt`) and confirmed JS interface security domain for `www.mindevo.club`.
+- Added WeChat Official Account IP whitelist entry `121.40.130.19`.
+
+### Changed
+
+- Root setup script (`ops/wechat-share/install-wechat-share-root.sh`) now installs a narrow sudoers rule granting `deploy` passwordless `systemctl restart mindevo-wechat-share.service` only.
+- Production deploy workflow restarts the signer via `sudo -n systemctl restart` instead of `pkill`, so the service starts cleanly on first activation (the `deploy` user has no general sudo).
+- Updated `docs/wechat-share-automation.md` to reflect the new restart mechanism and IP whitelist requirement.
+
+### Configuration
+
+- Set GitHub secrets `WECHAT_APP_ID`, `WECHAT_APP_SECRET`.
+- Set GitHub variable `WECHAT_SHARE_ENABLED=true`.
+- Ran one-time ECS root setup for the systemd service, nginx reverse proxy, and sudoers rule.
+
 ## 2026-07-10
 
 ### Added
