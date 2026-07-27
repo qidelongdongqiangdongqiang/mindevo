@@ -15,6 +15,7 @@ All notable production website changes are recorded here.
 - Root setup script (`ops/wechat-share/install-wechat-share-root.sh`) now installs a narrow sudoers rule granting `deploy` passwordless `systemctl restart mindevo-wechat-share.service` only.
 - Production deploy workflow restarts the signer via `sudo -n systemctl restart` instead of `pkill`, so the service starts cleanly on first activation (the `deploy` user has no general sudo).
 - Updated `docs/wechat-share-automation.md` to reflect the new restart mechanism and IP whitelist requirement.
+- Nginx canonical redirect: non-www (`mindevo.club`) and plain HTTP now 301-redirect to `https://www.mindevo.club`, eliminating the www/non-www WeChat share inconsistency.
 
 ### Configuration
 
