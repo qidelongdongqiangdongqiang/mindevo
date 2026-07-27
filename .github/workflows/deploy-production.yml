@@ -180,6 +180,7 @@ jobs:
             --region "$OSS_REGION" \
             -i "$OSS_ACCESS_KEY_ID" \
             -k "$OSS_ACCESS_KEY_SECRET" \
+            --metadata "Content-Disposition=inline" \
             assets "oss://${OSS_BUCKET}/assets/"
 
       - name: Smoke check production URLs
