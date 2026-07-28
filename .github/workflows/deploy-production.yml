@@ -180,8 +180,19 @@ jobs:
             --region "$OSS_REGION" \
             -i "$OSS_ACCESS_KEY_ID" \
             -k "$OSS_ACCESS_KEY_SECRET" \
-            --meta "Content-Disposition:inline" \
             assets "oss://${OSS_BUCKET}/assets/"
+
+      - name: Set OSS image Content-Disposition to inline
+        if: env.OSS_SYNC_ENABLED == 'true'
+        env:
+          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
+          OSS_BUCKET: ${{ vars.OSS_BUCKET }}
+        run: |
+          set -euo pipefail
+          pip install -q oss2
+          python3 scripts/set-oss-content-disposition.py
 
       - name: Smoke check production URLs
         run: |
