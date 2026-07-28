@@ -26,7 +26,17 @@ def main():
         if key == prefix:
             continue
         # Use copy-to-self to update standard headers such as Content-Disposition.
-        bucket.copy_object(bucket_name, key, key, headers={"Content-Disposition": "inline"})
+        # x-oss-metadata-directive: REPLACE tells OSS to apply the new headers
+        # instead of preserving the source object's metadata.
+        bucket.copy_object(
+            bucket_name,
+            key,
+            key,
+            headers={
+                "Content-Disposition": "inline",
+                "x-oss-metadata-directive": "REPLACE",
+            },
+        )
         print(f"Set Content-Disposition:inline for {key}")
         updated += 1
 
