@@ -172,29 +172,15 @@ jobs:
           set -euo pipefail
           sudo apt-get update
           sudo apt-get install -y unzip
-          curl -fsSL "https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-linux-amd64.zip" -o ossutil.zip
+          curl -fsSL "https://gosspublic.alicdn.com/ossutil/v2/2.1.0/ossutil-2.1.0-linux-amd64.zip" -o ossutil.zip
           unzip -q ossutil.zip
-          chmod +x ossutil-v1.7.19-linux-amd64/ossutil
-          ./ossutil-v1.7.19-linux-amd64/ossutil cp -r -f \
+          chmod +x ossutil-2.1.0-linux-amd64/ossutil
+          ./ossutil-2.1.0-linux-amd64/ossutil cp -r -f \
             -e "$OSS_ENDPOINT" \
+            --region "$OSS_REGION" \
             -i "$OSS_ACCESS_KEY_ID" \
             -k "$OSS_ACCESS_KEY_SECRET" \
             assets "oss://${OSS_BUCKET}/assets/"
-
-      - name: Set OSS image Content-Disposition to inline
-        if: env.OSS_SYNC_ENABLED == 'true'
-        env:
-          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-        run: |
-          set -euo pipefail
-          ./ossutil-v1.7.19-linux-amd64/ossutil set-meta \
-            -e "$OSS_ENDPOINT" \
-            -i "$OSS_ACCESS_KEY_ID" \
-            -k "$OSS_ACCESS_KEY_SECRET" \
-            "oss://${OSS_BUCKET}/assets/images/" \
-            "Content-Disposition:inline" \
-            -r -f -u
 
       - name: Smoke check production URLs
         run: |
