@@ -4,6 +4,14 @@ All notable production website changes are recorded here.
 
 ## 2026-09-06
 
+### Added
+
+- Added the "商业实战" product series: a new section on the products page (`products/index.html#business`) and a product card on the homepage, with a new card image (`assets/images/products/product-business.webp`, 800x500 crop of the generated group-discussion scene; synced to OSS by the deploy workflow).
+
+### Changed
+
+- Unified the product series order to 生存挑战 → 学科思维 → 科创心智 → 商业实战 → 生涯规划 → 家庭成长 → 高端定制 on both the homepage and the products page; the homepage product grid now lays out 3 cards on the top row and 4 on the bottom row (`grid three` + `grid four`).
+
 ### Fixed
 
 - Fixed the sticky top navigation disappearing while scrolling: `overflow-x: hidden` on `html`/`body` made `body` a scroll container, which broke `position: sticky` on `.site-header`. Both now use `overflow-x: clip` (keeping `hidden` as the legacy fallback), so the nav shrinks to its compact size and stays pinned to the top.
