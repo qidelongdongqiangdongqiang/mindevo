@@ -19,7 +19,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* clip 才不会把 html/body 变成滚动容器，保住 .site-header 的 sticky；hidden 仅为旧浏览器回退 */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -32,6 +34,7 @@ body {
     radial-gradient(circle at 92% 18%, rgba(111, 74, 116, .13), transparent 30%);
   line-height: 1.65;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img { max-width: 100%; display: block; }
