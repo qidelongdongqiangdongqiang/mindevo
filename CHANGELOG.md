@@ -2,6 +2,17 @@
 
 All notable production website changes are recorded here.
 
+## 2026-09-06
+
+### Fixed
+
+- Fixed the sticky top navigation disappearing while scrolling: `overflow-x: hidden` on `html`/`body` made `body` a scroll container, which broke `position: sticky` on `.site-header`. Both now use `overflow-x: clip` (keeping `hidden` as the legacy fallback), so the nav shrinks to its compact size and stays pinned to the top.
+
+### Changed
+
+- Synced the expedition brochure (`programs/survival-expedition-5/`) with the latest content draft: reworked promise card, expanded challenge list, fee/contact styling, and a redesigned signup section with a dedicated signup QR code (`assets/images/signup-qr.png`).
+- Updated the open-programs expedition blurb (30人精品小队) and reordered the products page series sections.
+
 ## 2026-07-27
 
 ### Added
