@@ -51,10 +51,14 @@
       align-items: start;
     }
     .signup-qr-row .qr-panel { justify-self: center; }
-    /* 报名区联系方式：字号增大 + 拨打按钮 */
+    /* 移动端：底部悬浮条已有微信/电话入口，只保留立即报名二维码 */
+    @media (max-width: 900px) {
+      .signup-qr-row { grid-template-columns: 1fr; }
+      .signup-qr-row .qr-consult { display: none; }
+    }
+    /* 报名区联系方式：字号增大 */
     .signup-section .contact-name { font-size: 20px; font-weight: 800; }
     .signup-section .contact-phone { font-size: 32px; font-weight: 900; letter-spacing: 1px; line-height: 1.3; }
-    .signup-section .contact-info-box .actions { margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -452,11 +456,10 @@
           <div class="contact-info-box">
             <div class="contact-name">咨询热线</div>
             <div class="contact-phone">156 9619 9359</div>
-            <div class="actions"><a class="btn primary" href="tel:15696199359">拨打电话</a></div>
           </div>
         </div>
         <div class="signup-qr-row">
-          <div class="qr-panel">
+          <div class="qr-panel qr-consult">
             <img src="https://mindevo-static.oss-cn-hangzhou.aliyuncs.com/assets/images/wechat-qr.webp" alt="微信咨询二维码">
             <p>扫码咨询</p>
           </div>
