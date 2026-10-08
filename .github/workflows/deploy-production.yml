@@ -119,7 +119,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p release
-          for item in index.html 404.html robots.txt sitemap.xml assets contact open-programs privacy products programs; do
+          for item in index.html 404.html robots.txt sitemap.xml assets contact invite open-programs privacy products programs; do
             if [ -e "$item" ]; then
               cp -a "$item" release/
             fi
@@ -137,7 +137,7 @@ jobs:
 
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_release' '$remote_backup_root' && test -d '$PROD_WEB_ROOT' && tar -C '$PROD_WEB_ROOT' -czf '$remote_backup' ."
           scp -i "$HOME/.ssh/mindevo_deploy_ed25519" -r release/* "${remote}:${remote_release}/"
-          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/assets '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/contact '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/products '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/programs '$PROD_WEB_ROOT'/ && find '$PROD_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$PROD_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/assets '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/contact '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/invite '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/products '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/programs '$PROD_WEB_ROOT'/ && find '$PROD_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$PROD_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
           echo "backup_path=$remote_backup" >> "$GITHUB_OUTPUT"
 
       - name: Deploy WeChat share service

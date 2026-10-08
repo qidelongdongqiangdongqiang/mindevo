@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>心理专业委员会筹备暨启动会议 · 邀请函</title>
+<style>
+  :root{
+    --ink:#1c1e24;
+    --sub:#70707a;
+    --line:#e6dfe9;
+    --brand:#4b2850;
+    --brand2:#5d3564;
+    --gold:#E8C88A;
+    --gold2:#C9A26B;
+    --paper:#fdfcfa;
+    --card:#f7f3f4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{background:#e9e4ea;}
+  body{
+    font-family:"Songti SC","Source Han Serif SC","Noto Serif SC","STSong",serif;
+    color:var(--ink);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sans{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;}
+  .page{
+    max-width:480px;margin:0 auto;background:var(--paper);
+    min-height:100vh;position:relative;overflow:hidden;
+    box-shadow:0 0 50px rgba(75,40,80,.12);
+  }
+
+  /* ================= HERO 封面 ================= */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1200px 500px at 85% -10%, rgba(232,200,138,.18), transparent 55%),
+      radial-gradient(700px 400px at -10% 100%, rgba(232,200,138,.08), transparent 60%),
+      linear-gradient(158deg,#3c1e42 0%, #4b2850 52%, #5a3163 100%);
+    color:#fff;
+    text-align:center;
+    padding:52px 30px 46px;
+    overflow:hidden;
+  }
+  /* 顶部细金线 + 底部细金线，形成典雅画框感 */
+  .hero .frame-line{
+    position:absolute;left:26px;right:26px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(232,200,138,.55),transparent);
+  }
+  .hero .frame-line.top{top:18px;}
+  .hero .frame-line.bottom{bottom:18px;}
+
+  .hero-logo{
+    width:120px;height:auto;display:block;margin:0 auto 30px;
+    filter:drop-shadow(0 4px 14px rgba(0,0,0,.30));
+  }
+  /* “邀请函”精致标识 */
+  .invite{
+    display:inline-flex;align-items:center;justify-content:center;gap:16px;
+    margin-bottom:32px;
+  }
+  .invite .rule{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .invite .rule.r{background:linear-gradient(270deg,transparent,var(--gold));}
+  .invite .word{
+    font-size:20px;letter-spacing:10px;color:var(--gold);
+    padding:7px 4px 7px 15px;
+    border:1.5px solid rgba(232,200,138,.8);
+    border-radius:3px;
+    text-shadow:0 1px 4px rgba(0,0,0,.3);
+    box-shadow:0 2px 14px rgba(0,0,0,.18), inset 0 0 0 5px rgba(232,200,138,.05);
+  }
+  .hero-title{
+    font-size:33px;font-weight:700;letter-spacing:2.5px;line-height:1.62;
+    text-shadow:0 2px 14px rgba(0,0,0,.25);
+  }
+  .hero-title .hl{color:var(--gold);}
+  .hero-divider{
+    width:70px;height:2px;margin:26px auto 22px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .hero-date{font-size:17px;letter-spacing:2px;color:rgba(255,255,255,.92);font-weight:600;}
+  .hero-org{font-size:13px;letter-spacing:3.5px;color:rgba(255,255,255,.75);margin-top:12px;line-height:2.0;}
+
+  /* 封面底部金色渐变衔接 */
+  .hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+    background:linear-gradient(90deg,var(--gold2),var(--gold),var(--gold2));
+  }
+
+  /* ================= 邀请辞 ================= */
+  .intro{padding:40px 32px 10px;}
+  .intro .salute{font-size:17.5px;font-weight:700;color:var(--brand);margin-bottom:16px;letter-spacing:1px;}
+  .intro p{font-size:16.5px;color:#33363f;text-indent:2em;margin-bottom:16px;line-height:2.0;}
+  .intro .em{color:var(--brand);font-weight:700;}
+
+  /* ================= 信息卡 ================= */
+  .infos{padding:16px 26px 8px;}
+  .info-card{
+    background:var(--card);border-radius:4px;
+    padding:26px 26px 22px;
+    border:1px solid var(--line);
+    position:relative;
+  }
+  .info-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--gold2),var(--gold),var(--gold2));
+    border-radius:4px 4px 0 0;
+  }
+  .info-row{display:flex;align-items:flex-start;gap:16px;padding:13px 0;}
+  .info-row+.info-row{border-top:1px dashed #e2d8e4;}
+  .info-ico{
+    flex:0 0 32px;height:32px;border-radius:50%;
+    background:linear-gradient(145deg,var(--brand2),#3c1e42);
+    color:var(--gold);font-size:15px;
+    display:flex;align-items:center;justify-content:center;margin-top:3px;
+    font-family:-apple-system,"PingFang SC",sans-serif;
+    box-shadow:0 2px 6px rgba(75,40,80,.22);
+  }
+  .info-body{flex:1;}
+  .info-label{font-size:12.5px;color:var(--sub);letter-spacing:2px;margin-bottom:3px;}
+  .info-value{font-size:17.5px;color:var(--ink);font-weight:700;letter-spacing:.3px;line-height:1.6;}
+  .info-value .small{font-size:15.5px;font-weight:600;color:#3a3f4a;}
+
+  /* ================= 章节 ================= */
+  .sec{padding:26px 32px 6px;}
+  .sec-head{text-align:center;margin-bottom:22px;}
+  .sec-title{
+    display:inline-block;font-size:20px;font-weight:700;letter-spacing:3px;color:var(--brand);
+    padding-bottom:10px;position:relative;
+  }
+  .sec-title::after{
+    content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+    width:44px;height:2px;background:var(--gold);
+  }
+
+  /* 议程 */
+  .agenda{position:relative;}
+  .ag-item{display:flex;gap:16px;padding:14px 0;position:relative;}
+  .ag-item:not(:last-child)::after{
+    content:"";position:absolute;left:16px;top:50px;bottom:0;width:1px;
+    background:linear-gradient(180deg,#e2d0e6,transparent);
+  }
+  .ag-no{
+    flex:0 0 33px;height:33px;border-radius:50%;
+    background:linear-gradient(145deg,var(--brand2),#3c1e42);color:var(--gold);
+    font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    z-index:1;box-shadow:0 2px 8px rgba(75,40,80,.25);
+    font-family:-apple-system,"PingFang SC",sans-serif;
+  }
+  .ag-txt{flex:1;}
+  .ag-name{font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.6;letter-spacing:.3px;}
+  .ag-meta{font-size:13px;color:var(--sub);margin-top:3px;letter-spacing:.5px;}
+  .ag-desc{font-size:14.5px;color:#6b6b74;margin-top:5px;line-height:1.8;}
+
+  /* ================= 报名 ================= */
+  .cta-wrap{padding:34px 26px 10px;}
+  .cta{
+    display:block;text-align:center;text-decoration:none;
+    background:linear-gradient(135deg,#5d3564,#3c1e42);
+    color:var(--gold);border-radius:4px;padding:19px;
+    font-size:18px;font-weight:700;letter-spacing:5px;
+    box-shadow:0 10px 26px rgba(75,40,80,.30);
+    transition:transform .15s;
+    font-family:-apple-system,"PingFang SC",sans-serif;
+    border:1px solid rgba(232,200,138,.35);
+  }
+  .cta:active{transform:scale(.98);}
+  .cta-note{
+    text-align:center;font-size:13px;color:var(--sub);
+    margin-top:14px;letter-spacing:.5px;line-height:1.8;
+  }
+  @keyframes gentleBlink{0%,100%{opacity:1}50%{opacity:.35}}
+  .cta-note-sub{
+    margin-top:6px;font-size:12px;color:#d43d2a;font-weight:600;
+    animation:gentleBlink 2.4s ease-in-out infinite;
+  }
+
+  /* ================= 落款 ================= */
+  .foot{
+    margin-top:30px;padding:36px 32px 46px;text-align:center;
+    background:linear-gradient(180deg,#f9f5f6,#f2eaef);
+    border-top:1px solid var(--line);
+  }
+  .foot .frame-line{
+    width:48px;height:1px;background:var(--gold2);margin:0 auto 22px;opacity:.7;
+  }
+  .sign-block{position:relative;display:inline-block;padding:4px 8px 30px;margin-top:38px;}
+  .foot-org{font-size:18px;font-weight:700;color:var(--brand);letter-spacing:2.5px;line-height:1.95;position:relative;z-index:1;}
+  .foot-org .sub{display:block;font-size:16px;font-weight:600;color:#5d3564;margin-top:3px;}
+  .foot-date{font-size:15.5px;color:#3a3a42;margin-top:16px;letter-spacing:2px;position:relative;z-index:1;}
+  .stamp{
+    position:absolute;width:100px;height:auto;
+    left:100%;bottom:6px;
+    margin-left:-30px;
+    transform:rotate(-13deg);
+    opacity:.8;z-index:2;pointer-events:none;
+    filter:drop-shadow(0 2px 6px rgba(140,20,20,.22));
+  }
+  .foot-contact{
+    display:inline-block;margin-top:4px;font-size:14.5px;color:#3a3f4a;
+    background:#fff;border:1px solid var(--line);border-radius:24px;padding:9px 22px;
+    position:relative;z-index:3;text-decoration:none;cursor:pointer;
+  }
+  .foot-contact b{color:var(--brand);letter-spacing:.5px;}
+  .foot-qr{
+    margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:8px;
+    position:relative;z-index:3;
+  }
+  .foot-qr img{
+    width:132px;height:auto;display:block;background:#fff;
+    border:1px solid var(--line);border-radius:14px;padding:8px;
+    box-shadow:0 6px 18px rgba(86,51,91,.10);
+  }
+  .foot-qr .cap{font-size:12.5px;color:#6a6f7c;letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 封面 -->
+  <header class="hero">
+    <div class="frame-line top"></div>
+    <div class="frame-line bottom"></div>
+    <img src="logo.png" class="hero-logo" alt="重庆市继续教育学会">
+    <div class="invite">
+      <span class="rule"></span>
+      <span class="word">邀请函</span>
+      <span class="rule r"></span>
+    </div>
+    <h1 class="hero-title">
+      心理专业委员会<br><span class="hl">筹备暨启动会议</span>
+    </h1>
+    <div class="hero-divider"></div>
+    <div class="hero-date">2026 年 10 月 14 日（星期三）上午</div>
+    <div class="hero-org">CHONGQING SOCIETY OF CONTINUING EDUCATION</div>
+  </header>
+
+  <!-- 邀请辞 -->
+  <section class="intro">
+    <div class="salute">尊敬的行业同仁：</div>
+    <p>为凝聚行业力量、推动学前心理健康服务专业化发展，<span class="em">重庆市继续教育学会心理专业委员会</span>筹备暨启动会议即将召开。</p>
+    <p>我们诚挚邀请幼儿园投资人、园长、学前教育转型师资及心理行业同仁拨冗出席，共同见证专委会启航，共探教育机构心理板块升级与师资职业转型的全新路径。</p>
+  </section>
+
+  <!-- 会议信息 -->
+  <section class="infos">
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-ico">时</div>
+        <div class="info-body">
+          <div class="info-label">会议时间</div>
+          <div class="info-value">2026年10月14日（周三）<span class="small">上午 10:00</span></div>
+          <div class="info-value small" style="font-size:14px;font-weight:500;color:#6b6b74;margin-top:3px;">09:30 起签到入场 ｜ 11:50 结束</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-ico">地</div>
+        <div class="info-body">
+          <div class="info-label">会议地点</div>
+          <div class="info-value small">重庆市继续教育学会<br>（南岸区同景国际写字楼 A3 栋 16 层）</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-ico">人</div>
+        <div class="info-body">
+          <div class="info-label">参会对象</div>
+          <div class="info-value small">幼儿园投资人、园长、学前教育师资<br>心理行业从业者、意向事业合伙人</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 会议议程 -->
+  <section class="sec">
+    <div class="sec-head"><div class="sec-title">会议议程</div></div>
+    <div class="agenda">
+      <div class="ag-item">
+        <div class="ag-no">1</div>
+        <div class="ag-txt">
+          <div class="ag-name">领导致辞 · 政策引航</div>
+          <div class="ag-meta">10 分钟 · 继续教育学会</div>
+          <div class="ag-desc">学会领导解读学前心理行业政策，为专委会官方背书，输出平台资源，共话行业前景。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">2</div>
+        <div class="ag-txt">
+          <div class="ag-name">盛会启幕 · 主旨宣明</div>
+          <div class="ag-meta">5 分钟</div>
+          <div class="ag-desc">致谢到场嘉宾，阐明办会初衷，预告本次会议五大核心议题。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">3</div>
+        <div class="ag-txt">
+          <div class="ag-name">专委擘局 · 聚力招募</div>
+          <div class="ag-meta">20 分钟</div>
+          <div class="ag-desc">剖析行业机遇痛点，解读专委会定位职能与业务，启动会员、示范园区、合伙人招募。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">4</div>
+        <div class="ag-txt">
+          <div class="ag-name">师资赋能 · 板块共建</div>
+          <div class="ag-meta">30 分钟</div>
+          <div class="ag-desc">发布心理师资转型项目，讲解园所心理板块搭建、人才培养认证以及双向收益模式。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">5</div>
+        <div class="ag-txt">
+          <div class="ag-name">赛道掘金 · 合伙共创</div>
+          <div class="ag-meta">30 分钟</div>
+          <div class="ag-desc">推介AI心理事业合伙人项目，解读总部赋能体系、合作模式与首批扶持政策。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">6</div>
+        <div class="ag-txt">
+          <div class="ag-name">答疑互通 · 意向荟集</div>
+          <div class="ag-meta">10 分钟</div>
+          <div class="ag-desc">现场解答合作疑问，开展会员、园所、事业合伙人意向信息登记。</div>
+        </div>
+      </div>
+      <div class="ag-item">
+        <div class="ag-no">7</div>
+        <div class="ag-txt">
+          <div class="ag-name">总结寄望 · 笃行落地</div>
+          <div class="ag-meta">5 分钟</div>
+          <div class="ag-desc">复盘会议要点，领导寄语，明确试点、开班、回访等后续落地计划。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 报名 -->
+  <section class="cta-wrap">
+    <a class="cta" href="https://pcn0w86wcsa7.feishu.cn/share/base/shrcnncfjDJaRzh0WrI32MktIRd" target="_blank" rel="noopener">
+      立即报名参会
+    </a>
+    <div class="cta-note">报名截止：2026年10月12日（周一）18:00 ｜ 名额有限，凭报名确认参会</div>
+    <div class="cta-note cta-note-sub">如打不开报名链接，请复制到浏览器打开</div>
+  </section>
+
+  <!-- 落款 -->
+  <footer class="foot">
+    <div class="frame-line"></div>
+    <a class="foot-contact" href="tel:18983051612" aria-label="拨打赵老师电话 18983051612"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>咨询联系：赵老师 <b>18983051612</b></a>
+    <div class="foot-qr">
+      <img src="qr_contact.jpg" alt="赵老师微信二维码">
+      <div class="cap">微信扫码 · 添加赵老师咨询</div>
+    </div>
+    <div class="sign-block">
+      <div class="foot-org">
+        重庆市继续教育学会
+        <span class="sub">心理专业委员会（筹）</span>
+      </div>
+      <div class="foot-date">二〇二六年九月</div>
+      <img src="seal.png" class="stamp" alt="重庆市继续教育学会印章">
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
