@@ -140,6 +140,14 @@ jobs:
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/assets '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/contact '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/invite '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/psy-founding '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/products '$PROD_WEB_ROOT'/ && cp -a '$remote_release'/programs '$PROD_WEB_ROOT'/ && find '$PROD_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$PROD_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
           echo "backup_path=$remote_backup" >> "$GITHUB_OUTPUT"
 
+      - name: Remove non-public files from web root
+        run: |
+          set -euo pipefail
+          remote="${PROD_DEPLOY_USER}@${PROD_DEPLOY_HOST}"
+          # Anything not part of the public site must not stay under the web root:
+          # VCS metadata, project docs, dev/ops scripts and local state.
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "rm -rf '$PROD_WEB_ROOT/.git' '$PROD_WEB_ROOT/.github' '$PROD_WEB_ROOT/.tmp' '$PROD_WEB_ROOT/docs' '$PROD_WEB_ROOT/ops' '$PROD_WEB_ROOT/scripts' '$PROD_WEB_ROOT/services' && rm -f '$PROD_WEB_ROOT'/.gitignore '$PROD_WEB_ROOT'/.gitattributes '$PROD_WEB_ROOT'/*.md '$PROD_WEB_ROOT'/*.ps1 && find '$PROD_WEB_ROOT' -name '.git' -prune -exec rm -rf {} + && find '$PROD_WEB_ROOT' -type f \\( -name '*.md' -o -name '*.ps1' -o -name '*.sh' -o -name '*.py' -o -name '*.lock' -o -name '*.log' -o -name '*.env' \\) -delete && echo web-root-hardened"
+
       - name: Deploy WeChat share service
         if: env.WECHAT_SHARE_ENABLED == 'true'
         env:
@@ -200,6 +208,23 @@ jobs:
             code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
             echo "$code $url"
             test "$code" = "200"
+          done
+          # Sensitive paths must never be publicly reachable (info-disclosure guard).
+          sensitive_urls=(
+            "${PROD_URL}/README.md"
+            "${PROD_URL}/CHANGELOG.md"
+            "${PROD_URL}/.git/config"
+            "${PROD_URL}/.git/HEAD"
+            "${PROD_URL}/.env"
+            "${PROD_URL}/composer.lock"
+          )
+          for url in "${sensitive_urls[@]}"; do
+            code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
+            echo "$code $url"
+            if [ "$code" != "404" ] && [ "$code" != "403" ]; then
+              echo "Sensitive URL is publicly reachable: $url (HTTP $code)" >&2
+              exit 1
+            fi
           done
           if [ "${WECHAT_SHARE_ENABLED:-false}" = "true" ]; then
             health_url="${PROD_URL}/api/wechat-js-signature/health"

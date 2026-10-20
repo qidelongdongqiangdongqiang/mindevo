@@ -84,6 +84,14 @@ jobs:
           scp -i "$HOME/.ssh/mindevo_deploy_ed25519" -r release/* "${remote}:${remote_release}/"
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/assets '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/contact '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/products '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/programs '$STAGING_WEB_ROOT'/ && find '$STAGING_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$STAGING_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
 
+      - name: Remove non-public files from web root
+        run: |
+          set -euo pipefail
+          remote="${STAGING_DEPLOY_USER}@${STAGING_DEPLOY_HOST}"
+          # Anything not part of the public site must not stay under the web root:
+          # VCS metadata, project docs, dev/ops scripts and local state.
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "rm -rf '$STAGING_WEB_ROOT/.git' '$STAGING_WEB_ROOT/.github' '$STAGING_WEB_ROOT/.tmp' '$STAGING_WEB_ROOT/docs' '$STAGING_WEB_ROOT/ops' '$STAGING_WEB_ROOT/scripts' '$STAGING_WEB_ROOT/services' && rm -f '$STAGING_WEB_ROOT'/.gitignore '$STAGING_WEB_ROOT'/.gitattributes '$STAGING_WEB_ROOT'/*.md '$STAGING_WEB_ROOT'/*.ps1 && find '$STAGING_WEB_ROOT' -name '.git' -prune -exec rm -rf {} + && find '$STAGING_WEB_ROOT' -type f \\( -name '*.md' -o -name '*.ps1' -o -name '*.sh' -o -name '*.py' -o -name '*.lock' -o -name '*.log' -o -name '*.env' \\) -delete && echo web-root-hardened"
+
       - name: Smoke check staging URLs
         run: |
           set -euo pipefail
@@ -102,4 +110,20 @@ jobs:
             code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
             echo "$code $url"
             test "$code" = "200"
+          done
+          # Sensitive paths must never be publicly reachable (info-disclosure guard).
+          sensitive_urls=(
+            "${STAGING_URL}/README.md"
+            "${STAGING_URL}/CHANGELOG.md"
+            "${STAGING_URL}/.git/config"
+            "${STAGING_URL}/.git/HEAD"
+            "${STAGING_URL}/.env"
+          )
+          for url in "${sensitive_urls[@]}"; do
+            code="$(curl -o /dev/null -sS -w '%{http_code}' "$url")"
+            echo "$code $url"
+            if [ "$code" != "404" ] && [ "$code" != "403" ]; then
+              echo "Sensitive URL is publicly reachable: $url (HTTP $code)" >&2
+              exit 1
+            fi
           done
