@@ -9,7 +9,7 @@ All notable production website changes are recorded here.
 - 整改市委网信办 2026 年第 188 号通报的 2 个信息泄露高危漏洞：服务器 web 根目录（`/var/www/mindevo`）遗留早期手动部署的 `.git` 目录和 `README.md`，可被外网直接访问。当日已手动删除并验证 `https://121.40.130.19/.git/config`、`https://121.40.130.19/README.md` 等路径均返回 404。
 - Production/staging deploy workflows now remove non-public files from the web root after every deploy (`.git`, `.github`, `docs`, `scripts`, `*.md`, `*.ps1`, `*.lock`, `*.env`, etc.), so VCS metadata and project docs can never be served again.
 - Deploy smoke checks now include negative security cases: `/README.md`, `/CHANGELOG.md`, `/.git/config`, `/.git/HEAD`, `/.env`, `/composer.lock` must return 404/403, otherwise the deploy fails.
-- Added `ops/nginx-security-hardening/` (root install script + nginx snippet) to block dotfiles and sensitive file types at the nginx layer as defense in depth; pending one-time root execution on the ECS host.
+- Added `ops/nginx-security-hardening/` (root install script + nginx snippet) to block dotfiles and sensitive file types at the nginx layer as defense in depth; executed as root on the ECS host on 2026-10-22, verified 404 for sensitive paths on both production and staging with site functions unaffected.
 - Audited the entire git history for hardcoded credentials (Aliyun AccessKey, private keys, WeChat AppSecret, tokens) in response to the `.git` exposure: none found, no rotation required. Manual deploy script (`mindevo-ops/deploy-static-site.ps1`) gained the same web-root cleanup step.
 
 ## 2026-09-06
