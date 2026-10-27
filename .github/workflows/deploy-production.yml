@@ -201,6 +201,7 @@ jobs:
             "${PROD_URL}/programs/survival-expedition/"
             "${PROD_URL}/contact/"
             "${PROD_URL}/psy/"
+            "${PROD_URL}/psy/training00/"
             "${PROD_URL}/psy/training01/"
             "${PROD_URL}/psy/training01/brochure/"
             "${PROD_URL}/privacy/"
