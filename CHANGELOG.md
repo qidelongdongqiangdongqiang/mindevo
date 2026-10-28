@@ -2,6 +2,18 @@
 
 All notable production website changes are recorded here.
 
+## 2026-10-28
+
+### Added
+
+- 上线「心悦星球公益行」页面：`https://www.mindevo.club/cares/`。包含公益初心、现状数据、机构介绍、16 个课程主题（家长课堂 / 亲子课堂 / 孩子专场 / 隔代教养）、公益呈现形式与社区/学校/企业合作方式。
+- 微信分享使用页面内自托管的 1200×1200 封面 `cares/og-cares.jpg`。OSS 上的图片会返回 `Content-Disposition: attachment`，微信端因此不显示分享缩略图，所以该图不走 OSS。
+
+### Changed
+
+- `sitemap.xml` 新增 `/cares/`。
+- 生产与 staging 部署工作流把 `cares/` 纳入发布包和冒烟检查，`/cares/` 返回非 200 会让部署失败。
+
 ## 2026-10-20
 
 ### Security
