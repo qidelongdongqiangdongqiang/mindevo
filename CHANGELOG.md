@@ -2,6 +2,15 @@
 
 All notable production website changes are recorded here.
 
+## 2026-10-31
+
+### Changed
+
+- 公益品牌定稿更名：页面由 `/cares/`（心悦星球公益行）迁至 **`/xinmiao/`（心悦星球·心苗公益）**，新增价值主张「每一株心苗，都值得用心浇灌。」与说明性副标题「青少年成长与家庭教育公益品牌」；首屏眉标由英文 `MindEvo Cares` 改为中文副标题。
+- 微信分享三件套同步：标题 `心悦星球·心苗公益`、摘要不变、封面改为自托管 `xinmiao/og-xinmiao.jpg`。
+- 旧 `/cares/` 改为自动跳转页（canonical 指向 `/xinmiao/`），已发出的链接继续可用。
+- `sitemap.xml` 收录地址改为 `/xinmiao/`；生产与预发部署工作流同步纳入 `xinmiao/` 并增加 `/xinmiao/` 冒烟检查。
+
 ## 2026-10-28
 
 ### Added

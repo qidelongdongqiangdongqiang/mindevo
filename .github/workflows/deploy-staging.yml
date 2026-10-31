@@ -64,7 +64,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p release
-          for item in index.html 404.html robots.txt sitemap.xml assets cares contact open-programs privacy products programs; do
+          for item in index.html 404.html robots.txt sitemap.xml assets xinmiao cares contact open-programs privacy products programs; do
             if [ -e "$item" ]; then
               cp -a "$item" release/
             fi
@@ -82,7 +82,7 @@ jobs:
 
           ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "mkdir -p '$remote_release' '$remote_backup_root' && test -d '$STAGING_WEB_ROOT' && tar -C '$STAGING_WEB_ROOT' -czf '$remote_backup' ."
           scp -i "$HOME/.ssh/mindevo_deploy_ed25519" -r release/* "${remote}:${remote_release}/"
-          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/assets '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/cares '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/contact '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/products '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/programs '$STAGING_WEB_ROOT'/ && find '$STAGING_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$STAGING_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
+          ssh -i "$HOME/.ssh/mindevo_deploy_ed25519" "$remote" "cp -a '$remote_release'/index.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/404.html '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/robots.txt '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/sitemap.xml '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/assets '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/xinmiao '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/cares '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/contact '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/open-programs '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/privacy '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/products '$STAGING_WEB_ROOT'/ && cp -a '$remote_release'/programs '$STAGING_WEB_ROOT'/ && find '$STAGING_WEB_ROOT' -type d -exec chmod 755 {} \\; && find '$STAGING_WEB_ROOT' -type f -exec chmod 644 {} \\; && rm -rf '$remote_release'"
 
       - name: Remove non-public files from web root
         run: |
@@ -102,6 +102,7 @@ jobs:
             "${STAGING_URL}/programs/spectrum-ai-4/"
             "${STAGING_URL}/programs/survival-expedition/"
             "${STAGING_URL}/contact/"
+            "${STAGING_URL}/xinmiao/"
             "${STAGING_URL}/cares/"
             "${STAGING_URL}/privacy/"
             "${STAGING_URL}/robots.txt"
