@@ -22,6 +22,15 @@ id_ed25519*
 # Local generated snapshots
 mindevo-production-*/
 backups/
+
+# 内部资料不得进公开发布仓库（定价/测算/设计稿/截图）
+*.xlsx
+*.xls
+*.xlsm
+*.docx
+*.pptx
+programs/*/screenshots/
+_qa*/
 # Python cache
 __pycache__/
 *.pyc
