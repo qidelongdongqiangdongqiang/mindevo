@@ -2,6 +2,12 @@
 
 All notable production website changes are recorded here.
 
+## 2026-11-02（第八次）
+
+### Changed
+
+- 主题条目的备注精简：删掉 A9、C7 的“AI 时代专题 · 可按需插入任一月”，删掉 B2、B3 的“与 A2/A3 同主题 · 亲子共同参加的版本”；保留 C3 的“可与司法所、学校联合开展”。打印版与官网同步。
+
 ## 2026-11-02（第七次）
 
 ### Changed
