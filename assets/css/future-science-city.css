@@ -1,7 +1,7 @@
 
 /* 遇见未来：真实场景 + 三日探索路书。浅色留白，品牌紫用于标题与关键动作。 */
 .future-page{--camp-ink:#302631;--camp-purple:#56335b;--camp-soft:#f1edf1;--camp-paper:#faf9f6;--camp-gold:#a5782e;background:var(--camp-paper);color:var(--camp-ink)}
-.future-page .wrap{max-width:1160px}
+.future-page .wrap{width:calc(100% - 40px);max-width:1160px}
 .future-hero{padding:64px 0 56px;background:#fffdfa;border-bottom:1px solid #e5dfe4}
 .future-hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(380px,.94fr);gap:52px;align-items:center}
 .future-hero-copy .eyebrow{margin-bottom:16px}
@@ -200,5 +200,15 @@
 .routine>.wrap>ul{padding:8px 16px}.fit{padding-bottom:18px}.safety{padding-top:18px}.safety>.wrap>ul{padding:20px 18px 20px 36px}
 .fees{padding-top:50px;padding-bottom:50px}.price-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:25px 24px}.price-card .price strong{font-size:56px}.price-card small{min-height:0}.fee-lists{grid-template-columns:1fr;gap:16px;margin-top:20px}.fee-list{padding:24px 22px}.fee-list h3{font-size:20px}.fee-list li{margin:14px 0;font-size:14px}.account-panel{margin-top:20px;padding:20px 16px}.account-panel h3{font-size:20px}.transfer-note{font-size:14px;line-height:1.7}
 .contact{padding-top:44px;padding-bottom:50px}
+.future-page~.mobile-sticky{display:none}
+.future-page+.footer{padding-bottom:36px}
+.account-panel .responsive-table{overflow:visible}
+.account-panel table{table-layout:fixed}
+.account-panel th,.account-panel td{min-width:0;padding:12px 10px;overflow-wrap:anywhere}
+.account-panel th:first-child,.account-panel td:first-child{width:68px;min-width:68px}
+.account-panel td:last-child{font-size:13px;word-break:break-all}
+.account-panel .account-number{padding-left:8px;padding-right:8px;font-size:12px;white-space:nowrap;word-break:normal;font-variant-numeric:tabular-nums}
+.contact-extra figure,.contact-extra img{width:140px}
+.contact-extra figcaption{font-size:12px;white-space:nowrap}
 }
 @media(prefers-reduced-motion:reduce){.future-page *{scroll-behavior:auto!important;animation:none!important;transition:none!important}.price-card,.value-list article,.growth>.wrap>ul>li{transition:none!important}}
