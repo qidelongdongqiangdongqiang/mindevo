@@ -2,6 +2,10 @@
 
 All notable production website changes are recorded here.
 
+## 2026-11-27
+
+- 上线心智立方超级课堂，在「正在招生」列表展示首场预告，接入官网咨询渠道和微信分享。
+
 ## 2026-11-02（第八次）
 
 ### Changed
